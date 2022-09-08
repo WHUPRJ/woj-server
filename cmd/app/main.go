@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/WHUPRJ/woj-server/internal/app"
-	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"
@@ -35,15 +33,7 @@ func main() {
 				Name:    "run",
 				Aliases: []string{"r"},
 				Usage:   "start the server",
-				Action: func(c *cli.Context) error {
-					g := new(global.Global)
-					g.Setup(c.String("config"))
-					defer func() { _ = g.Log.Sync() }()
-					//g.SetupRedis()
-
-					g.Log.Info("starting server...")
-					return app.Run(g)
-				},
+				Action:  run,
 			},
 		},
 	}

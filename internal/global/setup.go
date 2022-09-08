@@ -1,20 +1,40 @@
 package global
 
 import (
-	"github.com/WHUPRJ/woj-server/internal/pkg/metrics"
-	"math/rand"
-	"time"
+	"github.com/WHUPRJ/woj-server/pkg/utils"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"gopkg.in/yaml.v3"
+	"log"
 )
 
-func (g *Global) Setup(configFile string) {
-	rand.Seed(time.Now().Unix())
+func (g *Global) SetupZap() {
+	cfg := zap.Config{
+		Level: zap.NewAtomicLevelAt(
+			utils.If(g.Conf.Development, zapcore.DebugLevel, zapcore.InfoLevel).(zapcore.Level),
+		),
+		Development:      g.Conf.Development,
+		Encoding:         "console", // or json
+		EncoderConfig:    zap.NewDevelopmentEncoderConfig(),
+		OutputPaths:      []string{"stdout"},
+		ErrorOutputPaths: []string{"stderr"},
+	}
 
-	g.setupConfig(configFile)
-	g.setupZap()
+	var err error
+	g.Log, err = cfg.Build()
+	if err != nil {
+		log.Fatalf("Failed to setup Zap: %s\n", err.Error())
+	}
+}
 
-	g.Stat = new(metrics.Metrics)
-	g.Stat.Setup(g.Conf.Metrics.Namespace, g.Conf.Metrics.Subsystem)
-	g.Stat.SetLogPaths([]string{
-		"/api",
-	})
+func (g *Global) SetupConfig(configFile string) {
+	data, err := utils.FileRead(configFile)
+	if err != nil {
+		log.Fatalf("Failed to setup config: %s\n", err.Error())
+	}
+
+	err = yaml.Unmarshal(data, &g.Conf)
+	if err != nil {
+		log.Fatalf("Failed to setup config: %s\n", err.Error())
+	}
 }

@@ -9,5 +9,5 @@ type Global struct {
 	Log  *zap.Logger
 	Conf *Config
 	Stat *metrics.Metrics
-	// Redis *redis.Client
+	Db   Repo
 }

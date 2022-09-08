@@ -7,6 +7,17 @@ Redis:
   Address: '127.0.0.1:6379'
   Password: ''
 
+Database:
+  Host: '127.0.0.1'
+  Port: 5432
+  User: 'dev'
+  Password: 'password'
+  Database: 'dev'
+  Prefix: 'oj_'
+  MaxOpenConns: 100
+  MaxIdleConns: 60
+  ConnMaxLifetime: 60
+
 Metrics:
   Namespace: 'OJ'
   Subsystem: 'server'

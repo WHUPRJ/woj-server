@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/internal/pkg/metrics"
 	_ "github.com/WHUPRJ/woj-server/internal/router/docs"
 	"github.com/WHUPRJ/woj-server/pkg/utils"
 	"github.com/gin-contrib/cors"
@@ -42,6 +43,9 @@ func InitRouters(g *global.Global) *gin.Engine {
 	}))
 
 	// Prometheus middleware
+	g.Stat = new(metrics.Metrics)
+	g.Stat.Setup(g.Conf.Metrics.Namespace, g.Conf.Metrics.Subsystem)
+	g.Stat.SetLogPaths([]string{"/api"})
 	r.Use(g.Stat.Handler())
 
 	// metrics

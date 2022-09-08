@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/WHUPRJ/woj-server/internal/controller/debug"
+	"github.com/WHUPRJ/woj-server/internal/api/debug"
+	"github.com/WHUPRJ/woj-server/internal/api/user"
 	"github.com/WHUPRJ/woj-server/internal/global"
-	"github.com/WHUPRJ/woj-server/internal/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +17,7 @@ func setupApi(g *global.Global, root *gin.RouterGroup) {
 	}
 }
 
-var endpoints = []model.EndpointInfo{
+var endpoints = []global.EndpointInfo{
 	{Version: "", Path: "/debug", Register: debug.RouteRegister},
+	{Version: "/v1", Path: "/user", Register: user.RouteRegister},
 }
