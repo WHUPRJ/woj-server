@@ -3,20 +3,21 @@ package jwt
 import (
 	"fmt"
 	"github.com/WHUPRJ/woj-server/internal/e"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/pkg/utils"
 	"github.com/golang-jwt/jwt/v4"
 	"go.uber.org/zap"
 	"time"
 )
 
-func (s *service) ParseToken(tokenText string) (*Claim, e.Err) {
+func (s *service) ParseToken(tokenText string) (*global.Claim, e.Err) {
 	if tokenText == "" {
 		return nil, e.TokenEmpty
 	}
 
 	token, err := jwt.ParseWithClaims(
 		tokenText,
-		&Claim{},
+		&global.Claim{},
 		func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -39,14 +40,14 @@ func (s *service) ParseToken(tokenText string) (*Claim, e.Err) {
 	}
 
 	if token.Valid {
-		c := token.Claims.(*Claim)
+		c := token.Claims.(*global.Claim)
 		return c, e.Success
 	}
 
 	return nil, e.TokenInvalid
 }
 
-func (s *service) SignClaim(claim *Claim) (string, e.Err) {
+func (s *service) SignClaim(claim *global.Claim) (string, e.Err) {
 	now := time.Now()
 
 	claim.IssuedAt = jwt.NewNumericDate(now)

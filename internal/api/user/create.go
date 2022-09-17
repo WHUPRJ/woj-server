@@ -21,7 +21,8 @@ type createRequest struct {
 // @Param       nickname formData string true "nickname"
 // @Param       password formData string true "password"
 // @Response    200 {object} e.Response "random string"
-// @Router      /v1/user [post]
+// @Security    Authentication
+// @Router      /v1/user/create [post]
 func (h *handler) Create(c *gin.Context) {
 	req := new(createRequest)
 
@@ -36,11 +37,6 @@ func (h *handler) Create(c *gin.Context) {
 		Password: req.Password,
 	}
 
-	id, err := h.service.Create(createData)
-	if err != nil {
-		e.Pong(c, e.DatabaseError, err.Error())
-		return
-	}
-
-	e.Pong(c, e.Success, id)
+	id, err := h.userService.Create(createData)
+	e.Pong(c, err, id)
 }

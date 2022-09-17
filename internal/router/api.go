@@ -8,8 +8,11 @@ import (
 )
 
 // @title OJ Server API Documentation
-// @version 1.0
-// @BasePath /api
+// @version                     1.0
+// @BasePath                    /api
+// @securityDefinitions.apikey  Authentication
+// @in                          header
+// @name                        Authorization
 func setupApi(g *global.Global, root *gin.RouterGroup) {
 	for _, v := range endpoints {
 		group := root.Group(v.Version).Group(v.Path)

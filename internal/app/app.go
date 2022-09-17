@@ -6,6 +6,7 @@ import (
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/repo/postgresql"
 	"github.com/WHUPRJ/woj-server/internal/router"
+	"github.com/WHUPRJ/woj-server/internal/service/jwt"
 	"go.uber.org/zap"
 	"net/http"
 	"os"
@@ -18,6 +19,9 @@ func Run(g *global.Global) error {
 	// Setup Database
 	g.Db = new(postgresql.PgRepo)
 	g.Db.Setup(g)
+
+	// Setup JWT
+	g.Jwt = jwt.NewJwtService(g)
 
 	// Prepare Router
 	handler := router.InitRouters(g)

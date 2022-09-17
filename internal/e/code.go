@@ -16,6 +16,10 @@ const (
 	TokenInvalid   Err = 204
 	TokenSignError Err = 205
 	TokenRevoked   Err = 206
+
+	UserNotFound      Err = 300
+	UserWrongPassword Err = 301
+	UserDuplicated    Err = 302
 )
 
 var msgText = map[Err]string{
@@ -34,4 +38,8 @@ var msgText = map[Err]string{
 	TokenInvalid:   "Token Invalid",
 	TokenSignError: "Token Sign Error",
 	TokenRevoked:   "Token Revoked",
+
+	UserNotFound:      "User Not Found",
+	UserWrongPassword: "User Wrong Password",
+	UserDuplicated:    "User Duplicated",
 }

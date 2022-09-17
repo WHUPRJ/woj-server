@@ -10,4 +10,5 @@ type Global struct {
 	Conf *Config
 	Stat *metrics.Metrics
 	Db   Repo
+	Jwt  JwtService
 }
