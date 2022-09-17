@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// randomString godoc
+// randomString
 // @Summary     random string
 // @Description generate random string with length = 32
 // @Tags        debug

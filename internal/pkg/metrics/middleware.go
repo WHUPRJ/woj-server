@@ -33,7 +33,7 @@ func (m *Metrics) Handler() gin.HandlerFunc {
 		err, ok := errCode.(e.Err)
 		if !ok {
 			success = false
-			err = e.Fallback
+			err = e.Unknown
 		}
 
 		m.Record(method, url, success, status, err, elapsed)

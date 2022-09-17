@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/internal/repo/model"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -80,9 +81,10 @@ func (r *PgRepo) Setup(g *global.Global) {
 func (r *PgRepo) migrateDatabase() {
 	r.log.Info("Auto Migrating database...")
 
-	_ = r.db.AutoMigrate(&User{})
+	_ = r.db.AutoMigrate(&model.User{})
 }
 
+// checkAlive deprecated
 func (r *PgRepo) checkAlive(retry int) (*sql.DB, error) {
 	if retry <= 0 {
 		return nil, errors.New("all retries are used up. failed to connect to database")
