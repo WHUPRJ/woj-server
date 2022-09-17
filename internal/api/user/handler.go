@@ -2,7 +2,6 @@ package user
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/global"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
 	"github.com/WHUPRJ/woj-server/internal/service/user"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -14,8 +13,6 @@ type Handler interface {
 	Create(c *gin.Context)
 	Login(c *gin.Context)
 	// List(c *gin.Context)
-
-	tokenNext(c *gin.Context, user *model.User)
 }
 
 type handler struct {
@@ -32,6 +29,7 @@ func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 	}
 
 	group.POST("/login", app.Login)
-	group.POST("/create", app.jwtService.Handler(), app.Create)
+	group.POST("/create", app.Create)
+	group.POST("/logout", app.jwtService.Handler(), app.Logout)
 	// group.GET("/", app.List)
 }

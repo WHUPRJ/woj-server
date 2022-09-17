@@ -11,7 +11,7 @@ import (
 func (s *service) Login(data *model.User) (*model.User, e.Err) {
 	user := &model.User{UserName: data.UserName}
 
-	err := s.db.Get().Where(user).First(&user).Error
+	err := s.db.Where(user).First(&user).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return user, e.UserNotFound
 	}

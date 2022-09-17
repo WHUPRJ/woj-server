@@ -8,13 +8,14 @@ import (
 
 func (s *service) Handler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		const tokenPrefix = "bearer "
 		tokenHeader := c.GetHeader("Authorization")
-		if tokenHeader == "" || !strings.HasPrefix(strings.ToLower(tokenHeader), "bearer ") {
+		if tokenHeader == "" || !strings.HasPrefix(strings.ToLower(tokenHeader), tokenPrefix) {
 			e.Pong(c, e.TokenEmpty, nil)
 			c.Abort()
 			return
 		}
-		token := tokenHeader[7:]
+		token := tokenHeader[len(tokenPrefix):]
 
 		claim, err := s.ParseToken(token)
 		if err != e.Success {
@@ -23,11 +24,11 @@ func (s *service) Handler() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: validate claim version
-		// if !s.Validate(claim) {
-		// 	e.Pong(c, e.TokenRevoked, nil)
-		// 	c.Abort()
-		// }
+		if !s.Validate(claim) {
+			e.Pong(c, e.TokenRevoked, nil)
+			c.Abort()
+			return
+		}
 
 		c.Set("claim", claim)
 		c.Next()

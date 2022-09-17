@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"context"
 	"fmt"
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
@@ -17,7 +18,7 @@ func (s *service) ParseToken(tokenText string) (*global.Claim, e.Err) {
 
 	token, err := jwt.ParseWithClaims(
 		tokenText,
-		&global.Claim{},
+		new(global.Claim),
 		func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -63,4 +64,13 @@ func (s *service) SignClaim(claim *global.Claim) (string, e.Err) {
 		return "", e.TokenSignError
 	}
 	return ss, e.Success
+}
+
+func (s *service) Validate(claim *global.Claim) bool {
+	curVersion, err := s.redis.Get(context.Background(), fmt.Sprintf("Version:%d", claim.UID)).Int64()
+	if err != nil {
+		s.log.Debug("redis.Get error", zap.Error(err))
+		return false
+	}
+	return curVersion == claim.Version
 }

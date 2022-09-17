@@ -6,9 +6,10 @@ import (
 )
 
 type Global struct {
-	Log  *zap.Logger
-	Conf *Config
-	Stat *metrics.Metrics
-	Db   Repo
-	Jwt  JwtService
+	Log   *zap.Logger
+	Conf  *Config
+	Stat  *metrics.Metrics
+	Db    Repo
+	Redis Repo
+	Jwt   JwtService
 }

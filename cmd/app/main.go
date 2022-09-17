@@ -18,6 +18,14 @@ func main() {
 				Name:  "Paul",
 				Email: "i@0x7f.app",
 			},
+			{
+				Name:  "cxy004",
+				Email: "cxy004@qq.com",
+			},
+			{
+				Name:  "wzt",
+				Email: "w.zhongtao@qq.com",
+			},
 		},
 		Flags: []cli.Flag{
 			&cli.StringFlag{

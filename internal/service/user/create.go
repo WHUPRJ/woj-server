@@ -14,11 +14,11 @@ type CreateData struct {
 	Password string
 }
 
-func (s *service) Create(data *CreateData) (uint, e.Err) {
+func (s *service) Create(data *CreateData) (*model.User, e.Err) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		s.log.Debug("bcrypt error", zap.Error(err), zap.String("password", data.Password))
-		return 0, e.InternalError
+		return nil, e.InternalError
 	}
 
 	user := &model.User{
@@ -28,12 +28,12 @@ func (s *service) Create(data *CreateData) (uint, e.Err) {
 		IsEnabled: true,
 	}
 
-	if err := s.db.Get().Create(user).Error; err != nil {
+	if err := s.db.Create(user).Error; err != nil {
 		if strings.Contains(err.Error(), "duplicate key") {
-			return 0, e.UserDuplicated
+			return nil, e.UserDuplicated
 		}
 		s.log.Debug("create user error", zap.Error(err), zap.Any("data", data))
-		return 0, e.DatabaseError
+		return nil, e.DatabaseError
 	}
-	return user.ID, e.Success
+	return user, e.Success
 }

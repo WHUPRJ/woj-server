@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/repo/postgresql"
+	"github.com/WHUPRJ/woj-server/internal/repo/redis"
 	"github.com/WHUPRJ/woj-server/internal/router"
 	"github.com/WHUPRJ/woj-server/internal/service/jwt"
 	"go.uber.org/zap"
@@ -17,8 +18,12 @@ import (
 
 func Run(g *global.Global) error {
 	// Setup Database
-	g.Db = new(postgresql.PgRepo)
+	g.Db = new(postgresql.Repo)
 	g.Db.Setup(g)
+
+	// Setup Redis
+	g.Redis = new(redis.Repo)
+	g.Redis.Setup(g)
 
 	// Setup JWT
 	g.Jwt = jwt.NewJwtService(g)

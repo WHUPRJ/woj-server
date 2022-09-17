@@ -14,18 +14,18 @@ import (
 	"time"
 )
 
-var _ global.Repo = (*PgRepo)(nil)
+var _ global.Repo = (*Repo)(nil)
 
-type PgRepo struct {
+type Repo struct {
 	db  *gorm.DB
 	log *zap.Logger
 }
 
-func (r *PgRepo) Get() *gorm.DB {
+func (r *Repo) Get() interface{} {
 	return r.db
 }
 
-func (r *PgRepo) Close() error {
+func (r *Repo) Close() error {
 	db, err := r.db.DB()
 	if err != nil {
 		return err
@@ -33,7 +33,7 @@ func (r *PgRepo) Close() error {
 	return db.Close()
 }
 
-func (r *PgRepo) Setup(g *global.Global) {
+func (r *Repo) Setup(g *global.Global) {
 	r.log = g.Log
 
 	r.log.Info("Connecting to database...")
@@ -78,14 +78,14 @@ func (r *PgRepo) Setup(g *global.Global) {
 	r.migrateDatabase()
 }
 
-func (r *PgRepo) migrateDatabase() {
+func (r *Repo) migrateDatabase() {
 	r.log.Info("Auto Migrating database...")
 
 	_ = r.db.AutoMigrate(&model.User{})
 }
 
 // checkAlive deprecated
-func (r *PgRepo) checkAlive(retry int) (*sql.DB, error) {
+func (r *Repo) checkAlive(retry int) (*sql.DB, error) {
 	if retry <= 0 {
 		return nil, errors.New("all retries are used up. failed to connect to database")
 	}

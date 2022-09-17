@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/repo/model"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ type loginRequest struct {
 // @Produce     json
 // @Param       username formData string true "username"
 // @Param       password formData string true "password"
-// @Response    200 {object} e.Response "random string"
+// @Response    200 {object} e.Response "jwt token"
 // @Router      /v1/user/login [post]
 func (h *handler) Login(c *gin.Context) {
 	req := new(loginRequest)
@@ -40,5 +41,15 @@ func (h *handler) Login(c *gin.Context) {
 	}
 
 	// sign and return token
-	h.tokenNext(c, user)
+	version, err := h.userService.IncrVersion(user.ID)
+	if err != e.Success {
+		e.Pong(c, err, nil)
+		return
+	}
+	claim := &global.Claim{
+		UID:     user.ID,
+		Version: version,
+	}
+	token, err := h.jwtService.SignClaim(claim)
+	e.Pong(c, err, token)
 }

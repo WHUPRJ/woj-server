@@ -17,9 +17,12 @@ const (
 	TokenSignError Err = 205
 	TokenRevoked   Err = 206
 
-	UserNotFound      Err = 300
-	UserWrongPassword Err = 301
-	UserDuplicated    Err = 302
+	UserNotFound        Err = 300
+	UserWrongPassword   Err = 301
+	UserDuplicated      Err = 302
+	UserUnauthenticated Err = 303
+
+	RedisError Err = 400
 )
 
 var msgText = map[Err]string{
@@ -39,7 +42,10 @@ var msgText = map[Err]string{
 	TokenSignError: "Token Sign Error",
 	TokenRevoked:   "Token Revoked",
 
-	UserNotFound:      "User Not Found",
-	UserWrongPassword: "User Wrong Password",
-	UserDuplicated:    "User Duplicated",
+	UserNotFound:        "User Not Found",
+	UserWrongPassword:   "User Wrong Password",
+	UserDuplicated:      "User Duplicated",
+	UserUnauthenticated: "User Unauthenticated",
+
+	RedisError: "Redis Error",
 }

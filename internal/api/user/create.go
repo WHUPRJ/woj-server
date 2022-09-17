@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/service/user"
 	"github.com/gin-gonic/gin"
 )
@@ -20,8 +21,7 @@ type createRequest struct {
 // @Param       username formData string true "username"
 // @Param       nickname formData string true "nickname"
 // @Param       password formData string true "password"
-// @Response    200 {object} e.Response "random string"
-// @Security    Authentication
+// @Response    200 {object} e.Response "jwt token"
 // @Router      /v1/user/create [post]
 func (h *handler) Create(c *gin.Context) {
 	req := new(createRequest)
@@ -37,6 +37,21 @@ func (h *handler) Create(c *gin.Context) {
 		Password: req.Password,
 	}
 
-	id, err := h.userService.Create(createData)
-	e.Pong(c, err, id)
+	u, err := h.userService.Create(createData)
+	if err != e.Success {
+		e.Pong(c, err, nil)
+		return
+	}
+
+	version, err := h.userService.IncrVersion(u.ID)
+	if err != e.Success {
+		e.Pong(c, err, nil)
+		return
+	}
+	claim := &global.Claim{
+		UID:     u.ID,
+		Version: version,
+	}
+	token, err := h.jwtService.SignClaim(claim)
+	e.Pong(c, err, token)
 }
