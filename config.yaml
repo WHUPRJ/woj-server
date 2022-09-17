@@ -1,6 +1,8 @@
 WebServer:
   Address: 0.0.0.0
   Port: 8000
+  JwtSigningKey: 'rq67SdQIRABhHq40'
+  JwtExpireHour: 12
 
 Redis:
   Db: 0

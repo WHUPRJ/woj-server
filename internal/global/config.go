@@ -1,8 +1,10 @@
 package global
 
 type ConfigWebServer struct {
-	Address string `yaml:"Address"`
-	Port    int    `yaml:"Port"`
+	Address       string `yaml:"Address"`
+	Port          int    `yaml:"Port"`
+	JwtSigningKey string `yaml:"JwtSigningKey"`
+	JwtExpireHour int    `yaml:"JwtExpireHour"`
 }
 
 type ConfigRedis struct {
