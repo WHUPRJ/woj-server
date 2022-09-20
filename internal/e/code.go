@@ -8,6 +8,7 @@ const (
 	InvalidParameter Status = 101
 	NotFound         Status = 102
 	DatabaseError    Status = 103
+	RedisError       Status = 104
 
 	TokenUnknown   Status = 200
 	TokenEmpty     Status = 201
@@ -24,7 +25,7 @@ const (
 	UserUnauthorized    Status = 304
 	UserDisabled        Status = 305
 
-	RedisError Status = 400
+	ProblemNotFound Status = 500
 )
 
 var msgText = map[Status]string{
@@ -35,6 +36,7 @@ var msgText = map[Status]string{
 	InvalidParameter: "Invalid Parameter",
 	NotFound:         "Not Found",
 	DatabaseError:    "Database Error",
+	RedisError:       "Redis Error",
 
 	TokenUnknown:   "Unknown Error (Token)",
 	TokenEmpty:     "Token Empty",
@@ -51,5 +53,5 @@ var msgText = map[Status]string{
 	UserUnauthorized:    "User Unauthorized",
 	UserDisabled:        "User Disabled",
 
-	RedisError: "Redis Error",
+	ProblemNotFound: "Problem Not Found",
 }

@@ -82,6 +82,7 @@ func (r *Repo) migrateDatabase() {
 	r.log.Info("Auto Migrating database...")
 
 	_ = r.db.AutoMigrate(&model.User{})
+	_ = r.db.AutoMigrate(&model.Problem{})
 }
 
 // checkAlive deprecated

@@ -12,10 +12,10 @@ func (s *service) Profile(id uint) (*model.User, e.Status) {
 
 	err := s.db.First(&user, id).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return user, e.UserNotFound
+		return nil, e.UserNotFound
 	}
 	if err != nil {
-		return user, e.DatabaseError
+		return nil, e.DatabaseError
 	}
 
 	return user, e.Success
