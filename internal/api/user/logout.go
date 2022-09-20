@@ -21,6 +21,6 @@ func (h *handler) Logout(c *gin.Context) {
 		return
 	}
 
-	_, err := h.userService.IncrVersion(claim.(*global.Claim).UID)
-	e.Pong(c, err, nil)
+	_, status := h.userService.IncrVersion(claim.(*global.Claim).UID)
+	e.Pong(c, status, nil)
 }

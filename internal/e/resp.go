@@ -12,14 +12,14 @@ type Response struct {
 	Body interface{} `json:"body"`
 }
 
-func Wrap(err Err, body interface{}) interface{} {
+func Wrap(status Status, body interface{}) interface{} {
 	return Response{
-		Code: int(err),
-		Msg:  err.String(),
-		Body: utils.If(err == Success, body, nil),
+		Code: int(status),
+		Msg:  status.String(),
+		Body: utils.If(status == Success, body, nil),
 	}
 }
 
-func Pong(c *gin.Context, err Err, body interface{}) {
-	c.JSON(http.StatusOK, Wrap(err, body))
+func Pong(c *gin.Context, status Status, body interface{}) {
+	c.JSON(http.StatusOK, Wrap(status, body))
 }

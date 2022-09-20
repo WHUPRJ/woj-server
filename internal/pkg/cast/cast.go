@@ -13,7 +13,7 @@ func ToString(obj interface{}) string {
 		return strconv.FormatBool(t)
 	case []byte:
 		return string(t)
-	case e.Err:
+	case e.Status:
 		return t.String()
 	case error:
 		return t.Error()

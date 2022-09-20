@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) Login(data *model.User) (*model.User, e.Err) {
+func (s *service) Login(data *model.User) (*model.User, e.Status) {
 	user := &model.User{UserName: data.UserName}
 
 	err := s.db.Where(user).First(&user).Error

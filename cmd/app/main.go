@@ -10,6 +10,7 @@ import (
 func main() {
 	a := &cli.App{
 		Name:                 "OJ",
+		Usage:                "woj-server",
 		Compiled:             getBuildTime(),
 		Version:              Version,
 		EnableBashCompletion: true,

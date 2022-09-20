@@ -1,8 +1,8 @@
 package e
 
-type Err int
+type Status int
 
-func (code Err) String() string {
+func (code Status) String() string {
 	msg, ok := msgText[code]
 	if ok {
 		return msg

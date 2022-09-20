@@ -12,9 +12,9 @@ import (
 var _ Service = (*service)(nil)
 
 type Service interface {
-	Create(data *CreateData) (*model.User, e.Err)
-	Login(data *model.User) (*model.User, e.Err)
-	IncrVersion(id uint) (int64, e.Err)
+	Create(data *CreateData) (*model.User, e.Status)
+	Login(data *model.User) (*model.User, e.Status)
+	IncrVersion(id uint) (int64, e.Status)
 }
 
 type service struct {

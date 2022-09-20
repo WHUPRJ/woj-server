@@ -17,9 +17,9 @@ func (s *service) Handler() gin.HandlerFunc {
 		}
 		token := tokenHeader[len(tokenPrefix):]
 
-		claim, err := s.ParseToken(token)
-		if err != e.Success {
-			e.Pong(c, err, nil)
+		claim, status := s.ParseToken(token)
+		if status != e.Success {
+			e.Pong(c, status, nil)
 			c.Abort()
 			return
 		}

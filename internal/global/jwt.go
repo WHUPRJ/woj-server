@@ -13,8 +13,8 @@ type Claim struct {
 }
 
 type JwtService interface {
-	ParseToken(tokenText string) (*Claim, e.Err)
-	SignClaim(claim *Claim) (string, e.Err)
+	ParseToken(tokenText string) (*Claim, e.Status)
+	SignClaim(claim *Claim) (string, e.Status)
 	Validate(claim *Claim) bool
 
 	Handler() gin.HandlerFunc

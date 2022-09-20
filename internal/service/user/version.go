@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) IncrVersion(id uint) (int64, e.Err) {
+func (s *service) IncrVersion(id uint) (int64, e.Status) {
 	version, err := s.redis.Incr(context.Background(), fmt.Sprintf("Version:%d", id)).Result()
 	if err != nil {
 		s.log.Debug("redis.Incr error", zap.Error(err))

@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func (s *service) ParseToken(tokenText string) (*global.Claim, e.Err) {
+func (s *service) ParseToken(tokenText string) (*global.Claim, e.Status) {
 	if tokenText == "" {
 		return nil, e.TokenEmpty
 	}
@@ -48,7 +48,7 @@ func (s *service) ParseToken(tokenText string) (*global.Claim, e.Err) {
 	return nil, e.TokenInvalid
 }
 
-func (s *service) SignClaim(claim *global.Claim) (string, e.Err) {
+func (s *service) SignClaim(claim *global.Claim) (string, e.Status) {
 	now := time.Now()
 
 	claim.IssuedAt = jwt.NewNumericDate(now)

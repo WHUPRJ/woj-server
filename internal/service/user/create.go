@@ -14,7 +14,7 @@ type CreateData struct {
 	Password string
 }
 
-func (s *service) Create(data *CreateData) (*model.User, e.Err) {
+func (s *service) Create(data *CreateData) (*model.User, e.Status) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		s.log.Debug("bcrypt error", zap.Error(err), zap.String("password", data.Password))

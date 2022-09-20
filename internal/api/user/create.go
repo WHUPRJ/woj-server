@@ -37,21 +37,21 @@ func (h *handler) Create(c *gin.Context) {
 		Password: req.Password,
 	}
 
-	u, err := h.userService.Create(createData)
-	if err != e.Success {
-		e.Pong(c, err, nil)
+	u, status := h.userService.Create(createData)
+	if status != e.Success {
+		e.Pong(c, status, nil)
 		return
 	}
 
-	version, err := h.userService.IncrVersion(u.ID)
-	if err != e.Success {
-		e.Pong(c, err, nil)
+	version, status := h.userService.IncrVersion(u.ID)
+	if status != e.Success {
+		e.Pong(c, status, nil)
 		return
 	}
 	claim := &global.Claim{
 		UID:     u.ID,
 		Version: version,
 	}
-	token, err := h.jwtService.SignClaim(claim)
-	e.Pong(c, err, token)
+	token, status := h.jwtService.SignClaim(claim)
+	e.Pong(c, status, token)
 }

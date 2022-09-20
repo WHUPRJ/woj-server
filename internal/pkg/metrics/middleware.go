@@ -30,7 +30,7 @@ func (m *Metrics) Handler() gin.HandlerFunc {
 		status := c.Writer.Status()
 		success := !c.IsAborted() && (status == http.StatusOK)
 		errCode, _ := c.Get("err")
-		err, ok := errCode.(e.Err)
+		err, ok := errCode.(e.Status)
 		if !ok {
 			success = false
 			err = e.Unknown

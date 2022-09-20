@@ -44,7 +44,7 @@ func (m *Metrics) Setup(namespace string, subsystem string) {
 	prometheus.MustRegister(m.counter, m.hist)
 }
 
-func (m *Metrics) Record(method, url string, success bool, httpCode int, errCode e.Err, elapsed float64) {
+func (m *Metrics) Record(method, url string, success bool, httpCode int, errCode e.Status, elapsed float64) {
 	m.counter.With(prometheus.Labels{
 		"method": method,
 		"url":    url,

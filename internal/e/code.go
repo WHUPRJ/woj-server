@@ -1,31 +1,31 @@
 package e
 
 const (
-	Success Err = 0
-	Unknown Err = 1
+	Success Status = 0
+	Unknown Status = 1
 
-	InternalError    Err = 100
-	InvalidParameter Err = 101
-	NotFound         Err = 102
-	DatabaseError    Err = 103
+	InternalError    Status = 100
+	InvalidParameter Status = 101
+	NotFound         Status = 102
+	DatabaseError    Status = 103
 
-	TokenUnknown   Err = 200
-	TokenEmpty     Err = 201
-	TokenMalformed Err = 202
-	TokenTimeError Err = 203
-	TokenInvalid   Err = 204
-	TokenSignError Err = 205
-	TokenRevoked   Err = 206
+	TokenUnknown   Status = 200
+	TokenEmpty     Status = 201
+	TokenMalformed Status = 202
+	TokenTimeError Status = 203
+	TokenInvalid   Status = 204
+	TokenSignError Status = 205
+	TokenRevoked   Status = 206
 
-	UserNotFound        Err = 300
-	UserWrongPassword   Err = 301
-	UserDuplicated      Err = 302
-	UserUnauthenticated Err = 303
+	UserNotFound        Status = 300
+	UserWrongPassword   Status = 301
+	UserDuplicated      Status = 302
+	UserUnauthenticated Status = 303
 
-	RedisError Err = 400
+	RedisError Status = 400
 )
 
-var msgText = map[Err]string{
+var msgText = map[Status]string{
 	Success: "Success",
 	Unknown: "Unknown error",
 

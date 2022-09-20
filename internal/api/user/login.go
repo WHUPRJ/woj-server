@@ -34,22 +34,22 @@ func (h *handler) Login(c *gin.Context) {
 		UserName: req.Username,
 		Password: []byte(req.Password),
 	}
-	user, err := h.userService.Login(userData)
-	if err != e.Success {
-		e.Pong(c, err, nil)
+	user, status := h.userService.Login(userData)
+	if status != e.Success {
+		e.Pong(c, status, nil)
 		return
 	}
 
 	// sign and return token
-	version, err := h.userService.IncrVersion(user.ID)
-	if err != e.Success {
-		e.Pong(c, err, nil)
+	version, status := h.userService.IncrVersion(user.ID)
+	if status != e.Success {
+		e.Pong(c, status, nil)
 		return
 	}
 	claim := &global.Claim{
 		UID:     user.ID,
 		Version: version,
 	}
-	token, err := h.jwtService.SignClaim(claim)
-	e.Pong(c, err, token)
+	token, status := h.jwtService.SignClaim(claim)
+	e.Pong(c, status, token)
 }
