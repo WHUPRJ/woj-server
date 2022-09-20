@@ -25,6 +25,7 @@ func (s *service) Create(data *CreateData) (*model.User, e.Status) {
 		UserName:  data.Username,
 		Password:  hashed,
 		NickName:  data.Nickname,
+		Role:      model.RoleGeneral,
 		IsEnabled: true,
 	}
 

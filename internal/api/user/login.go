@@ -48,6 +48,7 @@ func (h *handler) Login(c *gin.Context) {
 	}
 	claim := &global.Claim{
 		UID:     user.ID,
+		Role:    user.Role,
 		Version: version,
 	}
 	token, status := h.jwtService.SignClaim(claim)
