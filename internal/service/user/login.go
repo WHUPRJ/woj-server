@@ -13,15 +13,19 @@ func (s *service) Login(data *model.User) (*model.User, e.Status) {
 
 	err := s.db.Where(user).First(&user).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return user, e.UserNotFound
+		return nil, e.UserNotFound
 	}
 	if err != nil {
-		return user, e.DatabaseError
+		return nil, e.DatabaseError
+	}
+
+	if !user.IsEnabled {
+		return nil, e.UserDisabled
 	}
 
 	err = bcrypt.CompareHashAndPassword(user.Password, data.Password)
 	if err != nil {
-		return user, e.UserWrongPassword
+		return nil, e.UserWrongPassword
 	}
 
 	return user, e.Success
