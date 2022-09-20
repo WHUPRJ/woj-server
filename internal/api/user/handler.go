@@ -12,7 +12,8 @@ var _ Handler = (*handler)(nil)
 type Handler interface {
 	Create(c *gin.Context)
 	Login(c *gin.Context)
-	// List(c *gin.Context)
+	Logout(c *gin.Context)
+	Profile(c *gin.Context)
 }
 
 type handler struct {
@@ -31,5 +32,5 @@ func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 	group.POST("/login", app.Login)
 	group.POST("/create", app.Create)
 	group.POST("/logout", app.jwtService.Handler(), app.Logout)
-	// group.GET("/", app.List)
+	group.POST("/profile", app.jwtService.Handler(), app.Profile)
 }

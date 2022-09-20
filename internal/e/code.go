@@ -21,6 +21,7 @@ const (
 	UserWrongPassword   Status = 301
 	UserDuplicated      Status = 302
 	UserUnauthenticated Status = 303
+	UserUnauthorized    Status = 304
 
 	RedisError Status = 400
 )
@@ -46,6 +47,7 @@ var msgText = map[Status]string{
 	UserWrongPassword:   "User Wrong Password",
 	UserDuplicated:      "User Duplicated",
 	UserUnauthenticated: "User Unauthenticated",
+	UserUnauthorized:    "User Unauthorized",
 
 	RedisError: "Redis Error",
 }
