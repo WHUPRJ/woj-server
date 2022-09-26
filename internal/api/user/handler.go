@@ -25,7 +25,7 @@ type handler struct {
 func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 	app := &handler{
 		log:         g.Log,
-		userService: user.NewUserService(g),
+		userService: user.NewService(g),
 		jwtService:  g.Jwt,
 	}
 

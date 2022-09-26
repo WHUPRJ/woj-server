@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/pkg/utils"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -19,5 +20,5 @@ func (s *service) Query(problemId uint) (*model.Problem, e.Status) {
 		return nil, e.DatabaseError
 	}
 
-	return problem, e.Success
+	return problem, utils.If(problem.IsEnabled, e.Success, e.ProblemNotAvailable).(e.Status)
 }

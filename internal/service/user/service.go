@@ -24,7 +24,7 @@ type service struct {
 	redis *redis.Client
 }
 
-func NewUserService(g *global.Global) Service {
+func NewService(g *global.Global) Service {
 	return &service{
 		log:   g.Log,
 		db:    g.Db.Get().(*gorm.DB),

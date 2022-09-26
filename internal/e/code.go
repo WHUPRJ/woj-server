@@ -25,7 +25,8 @@ const (
 	UserUnauthorized    Status = 304
 	UserDisabled        Status = 305
 
-	ProblemNotFound Status = 500
+	ProblemNotFound     Status = 500
+	ProblemNotAvailable Status = 501
 )
 
 var msgText = map[Status]string{
@@ -53,5 +54,6 @@ var msgText = map[Status]string{
 	UserUnauthorized:    "User Unauthorized",
 	UserDisabled:        "User Disabled",
 
-	ProblemNotFound: "Problem Not Found",
+	ProblemNotFound:     "Problem Not Found",
+	ProblemNotAvailable: "Problem Not Available",
 }

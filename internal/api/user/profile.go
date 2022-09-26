@@ -16,7 +16,7 @@ type profileRequest struct {
 // @Description fetch user profile
 // @Accept      application/x-www-form-urlencoded
 // @Produce     json
-// @Param       uid formData string false "user id"
+// @Param       uid formData int false "user id"
 // @Response    200 {object} e.Response "user info"
 // @Security    Authentication
 // @Router      /v1/user/profile [post]

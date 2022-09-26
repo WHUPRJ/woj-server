@@ -12,6 +12,7 @@ var _ Service = (*service)(nil)
 
 type Service interface {
 	Create(uint, *model.Problem) (*model.Problem, e.Status)
+	Update(uint, *model.Problem) (*model.Problem, e.Status)
 	Query(uint) (*model.Problem, e.Status)
 	QueryFuzz(string) ([]*model.Problem, e.Status)
 }
@@ -21,7 +22,7 @@ type service struct {
 	db  *gorm.DB
 }
 
-func NewProblemService(g *global.Global) Service {
+func NewService(g *global.Global) Service {
 	return &service{
 		log: g.Log,
 		db:  g.Db.Get().(*gorm.DB),
