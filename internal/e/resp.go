@@ -21,5 +21,6 @@ func Wrap(status Status, body interface{}) interface{} {
 }
 
 func Pong(c *gin.Context, status Status, body interface{}) {
+	c.Set("err", status)
 	c.JSON(http.StatusOK, Wrap(status, body))
 }

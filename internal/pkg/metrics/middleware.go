@@ -34,6 +34,8 @@ func (m *Metrics) Handler() gin.HandlerFunc {
 		if !ok {
 			success = false
 			err = e.Unknown
+		} else if err != e.Success {
+			success = false
 		}
 
 		m.Record(method, url, success, status, err, elapsed)
