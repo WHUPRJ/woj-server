@@ -19,13 +19,13 @@ type loginRequest struct {
 // @Produce     json
 // @Param       username formData string true "username"
 // @Param       password formData string true "password"
-// @Response    200 {object} e.Response "jwt token"
+// @Response    200 {object} e.Response "jwt token and user nickname"
 // @Router      /v1/user/login [post]
 func (h *handler) Login(c *gin.Context) {
 	req := new(loginRequest)
 
 	if err := c.ShouldBind(req); err != nil {
-		e.Pong(c, e.InvalidParameter, err.Error())
+		e.Pong(c, e.InvalidParameter, nil)
 		return
 	}
 
@@ -52,5 +52,8 @@ func (h *handler) Login(c *gin.Context) {
 		Version: version,
 	}
 	token, status := h.jwtService.SignClaim(claim)
-	e.Pong(c, status, token)
+	e.Pong(c, status, gin.H{
+		"token":    token,
+		"nickname": user.NickName,
+	})
 }

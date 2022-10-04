@@ -34,7 +34,7 @@ func (h *handler) Profile(c *gin.Context) {
 	req := new(profileRequest)
 	if err := c.ShouldBind(req); err == nil {
 		if req.UID != 0 && req.UID != uid {
-			if role >= model.RoleAdmin {
+			if role >= model.RoleGeneral {
 				uid = req.UID
 			} else {
 				e.Pong(c, e.UserUnauthorized, nil)
