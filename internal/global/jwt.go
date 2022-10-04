@@ -2,7 +2,7 @@ package global
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )

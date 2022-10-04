@@ -3,7 +3,7 @@ package user
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"github.com/gin-gonic/gin"
 )
 

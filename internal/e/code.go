@@ -27,6 +27,9 @@ const (
 
 	ProblemNotFound     Status = 500
 	ProblemNotAvailable Status = 501
+
+	TaskEnqueueFailed Status = 600
+	TaskGetInfoFailed Status = 601
 )
 
 var msgText = map[Status]string{
@@ -56,4 +59,7 @@ var msgText = map[Status]string{
 
 	ProblemNotFound:     "Problem Not Found",
 	ProblemNotAvailable: "Problem Not Available",
+
+	TaskEnqueueFailed: "Task Enqueue Failed",
+	TaskGetInfoFailed: "Task Get Info Failed",
 }

@@ -2,7 +2,7 @@ package problem
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"go.uber.org/zap"
 	"gorm.io/gorm/clause"
 )

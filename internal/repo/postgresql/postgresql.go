@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/WHUPRJ/woj-server/internal/global"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

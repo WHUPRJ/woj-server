@@ -3,7 +3,7 @@ package user
 import (
 	"errors"
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"gorm.io/gorm"
 )
 

@@ -3,7 +3,7 @@ package problem
 import (
 	"errors"
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"github.com/WHUPRJ/woj-server/pkg/utils"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

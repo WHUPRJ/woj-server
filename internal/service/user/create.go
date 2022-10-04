@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/internal/repo/model"
+	"github.com/WHUPRJ/woj-server/model"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
