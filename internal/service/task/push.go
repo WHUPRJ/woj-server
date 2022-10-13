@@ -7,10 +7,13 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) NewJudge(submission model.Submission) (string, e.Status) {
-	payload, err := json.Marshal(model.SubmitJudge{Submission: submission})
+func (s *service) PushProblem(id uint, file string) (string, e.Status) {
+	payload, err := json.Marshal(model.ProblemPushPayload{
+		ProblemID:   id,
+		ProblemFile: file,
+	})
 	if err != nil {
-		s.log.Warn("json marshal error", zap.Error(err), zap.Any("payload", submission))
+		s.log.Warn("json marshal error", zap.Error(err), zap.Any("id", id), zap.String("file", file))
 		return "", e.InternalError
 	}
 

@@ -1,17 +1,12 @@
 package model
 
 const (
-	TypeProblemResolve = "problem:resolve"
-	TypeProblemPush    = "problem:push"
-	TypeSubmitJudge    = "submit:judge"
+	TypeProblemPush = "problem:push"
+	TypeSubmitJudge = "submit:judge"
 )
 
-type ProblemResolvePayload struct {
-	ProblemID   uint
-	ProblemFile string
-}
-
 type ProblemPushPayload struct {
+	ProblemID   uint
 	ProblemFile string
 }
 

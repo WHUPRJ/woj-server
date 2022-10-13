@@ -15,5 +15,6 @@ type Problem struct {
 	Provider    User          `json:"-"            gorm:"foreignKey:ProviderID"`
 	Languages   pq.Int32Array `json:"languages"    gorm:"type:int[]"`
 	Points      pq.Int32Array `json:"points"       gorm:"type:int[]"`
+	StorageKey  string        `json:"storage_key"  gorm:"not null"`
 	IsEnabled   bool          `json:"is_enabled"   gorm:"not null;index"`
 }

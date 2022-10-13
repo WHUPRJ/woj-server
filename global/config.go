@@ -9,6 +9,7 @@ type ConfigWebServer struct {
 
 type ConfigRedis struct {
 	Db       int    `yaml:"Db"`
+	QueueDb  int    `yaml:"QueueDb"`
 	Address  string `yaml:"Address"`
 	Password string `yaml:"Password"`
 }

@@ -21,7 +21,7 @@ func (s *service) submit(typename string, payload []byte) (*asynq.TaskInfo, e.St
 }
 
 func (s *service) GetTaskInfo(id string) (*asynq.TaskInfo, e.Status) {
-	task, err := s.inspector.GetTaskInfo("", id)
+	task, err := s.inspector.GetTaskInfo("default", id)
 	if err != nil {
 		s.log.Debug("get task info failed", zap.Error(err), zap.String("id", id))
 		return nil, e.TaskGetInfoFailed

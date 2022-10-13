@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/model"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/internal/app"
-	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/urfave/cli/v2"
 	"math/rand"
 	"time"

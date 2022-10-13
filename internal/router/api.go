@@ -1,10 +1,10 @@
 package router
 
 import (
+	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/internal/api/debug"
 	"github.com/WHUPRJ/woj-server/internal/api/problem"
 	"github.com/WHUPRJ/woj-server/internal/api/user"
-	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/gin-gonic/gin"
 )
 

@@ -2,7 +2,7 @@ package redis
 
 import (
 	"context"
-	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/global"
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 )

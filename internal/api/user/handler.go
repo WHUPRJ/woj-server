@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/internal/service/user"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
