@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/WHUPRJ/woj-server/global"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/pkg/metrics"
 	_ "github.com/WHUPRJ/woj-server/internal/router/docs"
 	"github.com/WHUPRJ/woj-server/pkg/utils"

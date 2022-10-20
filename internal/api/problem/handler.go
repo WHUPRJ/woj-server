@@ -1,7 +1,7 @@
 package problem
 
 import (
-	"github.com/WHUPRJ/woj-server/global"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/service/problem"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

@@ -3,8 +3,8 @@ package jwt
 import (
 	"context"
 	"fmt"
-	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/internal/e"
+	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/pkg/utils"
 	"github.com/golang-jwt/jwt/v4"
 	"go.uber.org/zap"

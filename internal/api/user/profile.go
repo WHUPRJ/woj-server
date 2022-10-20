@@ -1,9 +1,9 @@
 package user
 
 import (
-	"github.com/WHUPRJ/woj-server/global"
 	"github.com/WHUPRJ/woj-server/internal/e"
-	"github.com/WHUPRJ/woj-server/model"
+	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/internal/model"
 	"github.com/gin-gonic/gin"
 )
 
