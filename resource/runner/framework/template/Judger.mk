@@ -1,0 +1,10 @@
+FCMP   = $(TESTLIB)/checkers/fcmp
+HCMP   = $(TESTLIB)/checkers/hcmp
+LCMP   = $(TESTLIB)/checkers/lcmp
+NCMP   = $(TESTLIB)/checkers/ncmp
+NYESNO = $(TESTLIB)/checkers/nyesno
+RCMP4  = $(TESTLIB)/checkers/rcmp4
+RCMP6  = $(TESTLIB)/checkers/rcmp6
+RCMP9  = $(TESTLIB)/checkers/rcmp9
+WCMP   = $(TESTLIB)/checkers/wcmp
+YESNO  = $(TESTLIB)/checkers/yesno
