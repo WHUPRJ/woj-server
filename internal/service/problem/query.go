@@ -4,21 +4,29 @@ import (
 	"errors"
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/model"
-	"github.com/WHUPRJ/woj-server/pkg/utils"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
-func (s *service) Query(problemId uint) (*model.Problem, e.Status) {
+func (s *service) Query(pid uint, associations bool, shouldEnable bool) (*model.Problem, e.Status) {
 	problem := new(model.Problem)
 
-	err := s.db.Preload(clause.Associations).First(&problem, problemId).Error
+	query := s.db
+	if associations {
+		query = query.Preload(clause.Associations)
+	}
+	err := query.First(&problem, pid).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, e.ProblemNotFound
 	}
 	if err != nil {
+		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("pid", pid))
 		return nil, e.DatabaseError
 	}
 
-	return problem, utils.If(problem.IsEnabled, e.Success, e.ProblemNotAvailable).(e.Status)
+	if shouldEnable && !problem.IsEnabled {
+		return nil, e.ProblemNotAvailable
+	}
+	return problem, e.Success
 }

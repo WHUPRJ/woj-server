@@ -19,5 +19,5 @@ type JwtService interface {
 	SignClaim(claim *Claim) (string, e.Status)
 	Validate(claim *Claim) bool
 
-	Handler() gin.HandlerFunc
+	Handler(forced bool) gin.HandlerFunc
 }

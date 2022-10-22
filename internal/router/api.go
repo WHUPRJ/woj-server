@@ -3,6 +3,8 @@ package router
 import (
 	"github.com/WHUPRJ/woj-server/internal/api/debug"
 	"github.com/WHUPRJ/woj-server/internal/api/problem"
+	"github.com/WHUPRJ/woj-server/internal/api/status"
+	"github.com/WHUPRJ/woj-server/internal/api/submission"
 	"github.com/WHUPRJ/woj-server/internal/api/user"
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/gin-gonic/gin"
@@ -25,4 +27,6 @@ var endpoints = []global.EndpointInfo{
 	{Version: "", Path: "/debug", Register: debug.RouteRegister},
 	{Version: "/v1", Path: "/user", Register: user.RouteRegister},
 	{Version: "/v1", Path: "/problem", Register: problem.RouteRegister},
+	{Version: "/v1", Path: "/submission", Register: submission.RouteRegister},
+	{Version: "/v1", Path: "/status", Register: status.RouteRegister},
 }

@@ -3,12 +3,12 @@ package user
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
-	"github.com/WHUPRJ/woj-server/internal/model"
+	"github.com/WHUPRJ/woj-server/internal/service/user"
 	"github.com/gin-gonic/gin"
 )
 
 type loginRequest struct {
-	Username string `form:"username" binding:"required"`
+	UserName string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
 }
 
@@ -30,30 +30,30 @@ func (h *handler) Login(c *gin.Context) {
 	}
 
 	// check password
-	userData := &model.User{
-		UserName: req.Username,
-		Password: []byte(req.Password),
+	loginData := &user.LoginData{
+		UserName: req.UserName,
+		Password: req.Password,
 	}
-	user, status := h.userService.Login(userData)
+	u, status := h.userService.Login(loginData)
 	if status != e.Success {
 		e.Pong(c, status, nil)
 		return
 	}
 
 	// sign and return token
-	version, status := h.userService.IncrVersion(user.ID)
+	version, status := h.userService.IncrVersion(u.ID)
 	if status != e.Success {
 		e.Pong(c, status, nil)
 		return
 	}
 	claim := &global.Claim{
-		UID:     user.ID,
-		Role:    user.Role,
+		UID:     u.ID,
+		Role:    u.Role,
 		Version: version,
 	}
 	token, status := h.jwtService.SignClaim(claim)
 	e.Pong(c, status, gin.H{
 		"token":    token,
-		"nickname": user.NickName,
+		"nickname": u.NickName,
 	})
 }

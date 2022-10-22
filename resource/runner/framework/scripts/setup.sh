@@ -5,7 +5,7 @@ rm -rf woj-sandbox
 git clone https://github.com/WHUPRJ/woj-sandbox.git >/dev/null 2>&1 || exit 1
 cd woj-sandbox && ./build_libseccomp.sh || exit 1
 
-mkdir -p build && cd build
+mkdir -p build && cd build || exit 1
 cmake .. -DCMAKE_BUILD_TYPE=Release || exit 1
 make -j || exit 1
 

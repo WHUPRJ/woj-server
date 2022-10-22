@@ -3,6 +3,7 @@ package utils
 import (
 	"io"
 	"os"
+	"path/filepath"
 )
 
 func FileRead(filePath string) ([]byte, error) {
@@ -23,6 +24,8 @@ func FileExist(filePath string) bool {
 }
 
 func FileTouch(filePath string) bool {
+	base := filepath.Dir(filePath)
+	_ = os.MkdirAll(base, 0755)
 	_, err := os.OpenFile(filePath, os.O_RDONLY|os.O_CREATE, 0644)
 	return If(err == nil, true, false).(bool)
 }

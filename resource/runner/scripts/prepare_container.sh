@@ -6,7 +6,7 @@ cd "$(dirname "$0")"/../ || exit 1
 
 if [ -f ./.mark.docker ]; then
   log_warn "Docker containers already prepared"
-  log_warn "If you want to re-prepare the containers, please remove the file `pwd`/.mark.docker"
+  log_warn "If you want to re-prepare the containers, please remove the file $(pwd)/.mark.docker"
   exit 1
 fi
 

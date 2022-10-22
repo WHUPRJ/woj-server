@@ -14,7 +14,7 @@ get_problem_info "$WORKSPACE" "$1" "$3"
 
 SRC_FILE="$WORKSPACE"/user/"$2"/"$2"."$3"
 EXE_FILE="$WORKSPACE"/user/"$2"/"$2".out
-LOG_FILE="$WORKSPACE"/user/"$2"/"$2".compile.log
+export LOG_FILE="$WORKSPACE"/user/"$2"/"$2".compile.log
 
 rm -f "$EXE_FILE" && touch "$EXE_FILE"
 

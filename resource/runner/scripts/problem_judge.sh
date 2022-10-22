@@ -12,7 +12,7 @@ fi
 
 get_problem_info "$WORKSPACE" "$1" "$3"
 
-TIMEOUT=${4:-60}
+export TIMEOUT=${4:-60}
 for test_num in $(seq "$Info_Num"); do
   std_file="$WORKSPACE/problem/$1/data/output/$test_num.output"
   ans_file="$WORKSPACE/user/$2/$test_num.out.usr"

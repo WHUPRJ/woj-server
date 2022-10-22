@@ -9,31 +9,32 @@ import (
 )
 
 type CreateData struct {
-	Username string
-	Nickname string
+	UserName string
 	Password string
+	NickName string
 }
 
 func (s *service) Create(data *CreateData) (*model.User, e.Status) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
-		s.log.Debug("bcrypt error", zap.Error(err), zap.String("password", data.Password))
+		s.log.Warn("BcryptError", zap.Error(err), zap.String("password", data.Password))
 		return nil, e.InternalError
 	}
 
 	user := &model.User{
-		UserName:  data.Username,
+		UserName:  data.UserName,
 		Password:  hashed,
-		NickName:  data.Nickname,
+		NickName:  data.NickName,
 		Role:      model.RoleGeneral,
 		IsEnabled: true,
 	}
 
-	if err := s.db.Create(user).Error; err != nil {
-		if strings.Contains(err.Error(), "duplicate key") {
-			return nil, e.UserDuplicated
-		}
-		s.log.Debug("create user error", zap.Error(err), zap.Any("data", data))
+	err = s.db.Create(user).Error
+	if err != nil && strings.Contains(err.Error(), "duplicate key") {
+		return nil, e.UserDuplicated
+	}
+	if err != nil {
+		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("user", user))
 		return nil, e.DatabaseError
 	}
 	return user, e.Success

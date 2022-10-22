@@ -4,6 +4,7 @@ import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/model"
+	"github.com/WHUPRJ/woj-server/internal/service/runner"
 	"github.com/hibiken/asynq"
 	"go.uber.org/zap"
 )
@@ -11,10 +12,12 @@ import (
 var _ Service = (*service)(nil)
 
 type Service interface {
-	NewJudge(submission model.Submission) (string, e.Status)
-	PushProblem(id uint, file string) (string, e.Status)
-	GetTaskInfo(id string) (*asynq.TaskInfo, e.Status)
-	submit(typename string, payload []byte) (*asynq.TaskInfo, e.Status)
+	ProblemBuild(pvId uint, file string) (string, e.Status)
+	ProblemUpdate(status e.Status, pvId uint, ctx string) (string, e.Status)
+	SubmitJudge(pvid uint, storageKey string, submission model.Submission) (string, e.Status)
+	SubmitUpdate(status e.Status, sid uint, point int32, ctx runner.JudgeStatus) (string, e.Status)
+
+	GetTaskInfo(string, string) (*asynq.TaskInfo, e.Status)
 }
 
 type service struct {

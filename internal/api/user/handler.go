@@ -18,19 +18,19 @@ type Handler interface {
 
 type handler struct {
 	log         *zap.Logger
-	userService user.Service
 	jwtService  global.JwtService
+	userService user.Service
 }
 
 func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 	app := &handler{
 		log:         g.Log,
-		userService: user.NewService(g),
 		jwtService:  g.Jwt,
+		userService: user.NewService(g),
 	}
 
-	group.POST("/login", app.Login)
 	group.POST("/create", app.Create)
-	group.POST("/logout", app.jwtService.Handler(), app.Logout)
-	group.POST("/profile", app.jwtService.Handler(), app.Profile)
+	group.POST("/login", app.Login)
+	group.POST("/logout", app.jwtService.Handler(true), app.Logout)
+	group.POST("/profile", app.jwtService.Handler(true), app.Profile)
 }

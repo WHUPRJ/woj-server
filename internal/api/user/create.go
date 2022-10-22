@@ -8,9 +8,9 @@ import (
 )
 
 type createRequest struct {
-	Username string `form:"username" binding:"required"`
-	Nickname string `form:"nickname" binding:"required"`
+	UserName string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
+	NickName string `form:"nickname" binding:"required"`
 }
 
 // Create
@@ -32,11 +32,10 @@ func (h *handler) Create(c *gin.Context) {
 	}
 
 	createData := &user.CreateData{
-		Username: req.Username,
-		Nickname: req.Nickname,
+		UserName: req.UserName,
 		Password: req.Password,
+		NickName: req.NickName,
 	}
-
 	u, status := h.userService.Create(createData)
 	if status != e.Success {
 		e.Pong(c, status, nil)
@@ -48,6 +47,7 @@ func (h *handler) Create(c *gin.Context) {
 		e.Pong(c, status, nil)
 		return
 	}
+
 	claim := &global.Claim{
 		UID:     u.ID,
 		Role:    u.Role,
@@ -55,4 +55,5 @@ func (h *handler) Create(c *gin.Context) {
 	}
 	token, status := h.jwtService.SignClaim(claim)
 	e.Pong(c, status, token)
+	return
 }

@@ -31,18 +31,22 @@ func (h *handler) Profile(c *gin.Context) {
 
 	uid := claim.(*global.Claim).UID
 	role := claim.(*global.Claim).Role
+
 	req := new(profileRequest)
-	if err := c.ShouldBind(req); err == nil {
-		if req.UID != 0 && req.UID != uid {
-			if role >= model.RoleGeneral {
-				uid = req.UID
-			} else {
-				e.Pong(c, e.UserUnauthorized, nil)
-				return
-			}
-		}
+
+	if err := c.ShouldBind(req); err != nil {
+		e.Pong(c, e.InvalidParameter, nil)
+		return
 	}
 
-	user, status := h.userService.Profile(uid)
+	if req.UID == 0 {
+		req.UID = uid
+	} else if req.UID != uid && role < model.RoleGeneral {
+		e.Pong(c, e.UserUnauthorized, nil)
+		return
+	}
+
+	user, status := h.userService.Profile(req.UID)
 	e.Pong(c, status, user)
+	return
 }

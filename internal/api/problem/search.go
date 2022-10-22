@@ -6,7 +6,6 @@ import (
 )
 
 type searchRequest struct {
-	Pid    uint   `form:"pid"`
 	Search string `form:"search"`
 }
 
@@ -15,9 +14,8 @@ type searchRequest struct {
 // @Description get detail of a problem
 // @Accept      application/x-www-form-urlencoded
 // @Produce     json
-// @Param       pid formData int false "problem id"
-// @Param       search formData string false "search problem"
-// @Response    200 {object} e.Response "problem info"
+// @Param       search formData string false "word search"
+// @Response    200 {object} e.Response "problemset"
 // @Router      /v1/problem/search [post]
 func (h *handler) Search(c *gin.Context) {
 	req := new(searchRequest)
@@ -27,17 +25,14 @@ func (h *handler) Search(c *gin.Context) {
 		return
 	}
 
-	if req.Pid == 0 && req.Search == "" {
-		e.Pong(c, e.InvalidParameter, nil)
-		return
-	}
-
-	if req.Pid != 0 {
-		problem, status := h.problemService.Query(req.Pid)
+	// TODO: pagination
+	if req.Search == "" {
+		// TODO: query without LIKE
+		problem, status := h.problemService.QueryFuzz(req.Search, true, true)
 		e.Pong(c, status, problem)
 		return
 	} else {
-		problem, status := h.problemService.QueryFuzz(req.Search)
+		problem, status := h.problemService.QueryFuzz(req.Search, true, true)
 		e.Pong(c, status, problem)
 		return
 	}

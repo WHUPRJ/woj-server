@@ -13,9 +13,9 @@ var _ Service = (*service)(nil)
 
 type Service interface {
 	Create(data *CreateData) (*model.User, e.Status)
-	Login(data *model.User) (*model.User, e.Status)
-	IncrVersion(id uint) (int64, e.Status)
-	Profile(id uint) (*model.User, e.Status)
+	Login(data *LoginData) (*model.User, e.Status)
+	IncrVersion(uid uint) (int64, e.Status)
+	Profile(uid uint) (*model.User, e.Status)
 }
 
 type service struct {

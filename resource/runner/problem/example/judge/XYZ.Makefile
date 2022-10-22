@@ -19,4 +19,4 @@ compile:
 judge:
 	# Rename on *.out.usr or *.judge is not allowed
 	sed '/gadgets/d' $(PREFIX)/user/$(TEST_NUM).out.usr > $(PREFIX)/user/$(TEST_NUM).out.usr1
-	$(NCMP) $(PREFIX)/data/input/$(TEST_NUM).input $(PREFIX)/user/$(TEST_NUM).out.usr1 $(PREFIX)/data/output/$(TEST_NUM).output > $(PREFIX)/user/$(TEST_NUM).judge 2>&1
+	$(NCMP) $(PREFIX)/data/input/$(TEST_NUM).input $(PREFIX)/user/$(TEST_NUM).out.usr1 $(PREFIX)/data/output/$(TEST_NUM).output $(PREFIX)/user/$(TEST_NUM).judge -appes

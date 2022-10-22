@@ -11,10 +11,15 @@ import (
 var _ Service = (*service)(nil)
 
 type Service interface {
-	Create(uint, *model.Problem) (*model.Problem, e.Status)
-	Update(uint, *model.Problem) (*model.Problem, e.Status)
-	Query(uint) (*model.Problem, e.Status)
-	QueryFuzz(string) ([]*model.Problem, e.Status)
+	Create(data *CreateData) (*model.Problem, e.Status)
+	Update(problem *model.Problem) (*model.Problem, e.Status)
+	Query(pid uint, associations bool, shouldEnable bool) (*model.Problem, e.Status)
+	QueryFuzz(search string, associations bool, shouldEnable bool) ([]*model.Problem, e.Status)
+
+	CreateVersion(data *CreateVersionData) (*model.ProblemVersion, e.Status)
+	UpdateVersion(problemVersion *model.ProblemVersion) (*model.ProblemVersion, e.Status)
+	QueryVersion(pvid uint, shouldEnable bool) (*model.ProblemVersion, e.Status)
+	QueryLatestVersion(pid uint) (*model.ProblemVersion, e.Status)
 }
 
 type service struct {

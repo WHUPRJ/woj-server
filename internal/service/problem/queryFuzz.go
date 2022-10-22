@@ -1,25 +1,28 @@
 package problem
 
 import (
-	"errors"
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/model"
-	"gorm.io/gorm"
+	"go.uber.org/zap"
 	"gorm.io/gorm/clause"
 )
 
-func (s *service) QueryFuzz(search string) ([]*model.Problem, e.Status) {
-	var problems []*model.Problem
+func (s *service) QueryFuzz(search string, associations bool, shouldEnable bool) ([]*model.Problem, e.Status) {
+	problems := make([]*model.Problem, 0)
 
-	err := s.db.Preload(clause.Associations).
-		Where("is_enabled = true").
-		Where(s.db.Where("title LIKE ?", "%"+search+"%").
-			Or("content LIKE ?", "%"+search+"%")).
-		Find(&problems).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, e.ProblemNotFound
+	query := s.db
+	if associations {
+		query = query.Preload(clause.Associations)
 	}
+	if shouldEnable {
+		query = query.Where("is_enabled = true")
+	}
+	query = query.
+		Where(s.db.Where("title LIKE ?", "%"+search+"%").
+			Or("statement LIKE ?", "%"+search+"%"))
+	err := query.Find(&problems).Error
 	if err != nil {
+		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("search", search))
 		return nil, e.DatabaseError
 	}
 

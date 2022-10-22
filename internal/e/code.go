@@ -1,35 +1,61 @@
 package e
 
 const (
-	Success Status = 0
-	Unknown Status = 1
+	Success Status = iota
+	Unknown
+)
 
-	InternalError    Status = 100
-	InvalidParameter Status = 101
-	NotFound         Status = 102
-	DatabaseError    Status = 103
-	RedisError       Status = 104
+const (
+	InternalError Status = 100 + iota
+	InvalidParameter
+	NotFound
+	DatabaseError
+	RedisError
+)
 
-	TokenUnknown   Status = 200
-	TokenEmpty     Status = 201
-	TokenMalformed Status = 202
-	TokenTimeError Status = 203
-	TokenInvalid   Status = 204
-	TokenSignError Status = 205
-	TokenRevoked   Status = 206
+const (
+	TokenUnknown Status = 200 + iota
+	TokenEmpty
+	TokenMalformed
+	TokenTimeError
+	TokenInvalid
+	TokenSignError
+	TokenRevoked
+)
 
-	UserNotFound        Status = 300
-	UserWrongPassword   Status = 301
-	UserDuplicated      Status = 302
-	UserUnauthenticated Status = 303
-	UserUnauthorized    Status = 304
-	UserDisabled        Status = 305
+const (
+	UserNotFound Status = 300 + iota
+	UserWrongPassword
+	UserDuplicated
+	UserUnauthenticated
+	UserUnauthorized
+	UserDisabled
+)
 
-	ProblemNotFound     Status = 500
-	ProblemNotAvailable Status = 501
+const (
+	ProblemNotFound Status = 500 + iota
+	ProblemNotAvailable
+	ProblemVersionNotFound
+	ProblemVersionNotAvailable
+	StatusNotFound
+)
 
-	TaskEnqueueFailed Status = 600
-	TaskGetInfoFailed Status = 601
+const (
+	TaskEnqueueFailed Status = 600 + iota
+	TaskGetInfoFailed
+)
+
+const (
+	RunnerDepsBuildFailed Status = 700 + iota
+	RunnerDownloadFailed
+	RunnerUnzipFailed
+	RunnerProblemNotExist
+	RunnerProblemPrebuildFailed
+	RunnerProblemParseFailed
+	RunnerUserNotExist
+	RunnerUserCompileFailed
+	RunnerRunFailed
+	RunnerJudgeFailed
 )
 
 var msgText = map[Status]string{
@@ -57,9 +83,24 @@ var msgText = map[Status]string{
 	UserUnauthorized:    "User Unauthorized",
 	UserDisabled:        "User Disabled",
 
-	ProblemNotFound:     "Problem Not Found",
-	ProblemNotAvailable: "Problem Not Available",
+	ProblemNotFound:            "Problem Not Found",
+	ProblemNotAvailable:        "Problem Not Available",
+	ProblemVersionNotFound:     "Problem Version Not Found",
+	ProblemVersionNotAvailable: "Problem Version Not Available",
+
+	StatusNotFound: "Status Not Found",
 
 	TaskEnqueueFailed: "Task Enqueue Failed",
 	TaskGetInfoFailed: "Task Get Info Failed",
+
+	RunnerDepsBuildFailed:       "Runner Deps Build Failed",
+	RunnerDownloadFailed:        "Runner Download Failed",
+	RunnerUnzipFailed:           "Runner Unzip Failed",
+	RunnerProblemNotExist:       "Runner Problem Not Exist",
+	RunnerProblemPrebuildFailed: "Runner Problem Prebuild Failed",
+	RunnerProblemParseFailed:    "Runner Problem Parse Failed",
+	RunnerUserNotExist:          "Runner User Not Exist",
+	RunnerUserCompileFailed:     "Runner User Compile Failed",
+	RunnerRunFailed:             "Runner Run Failed",
+	RunnerJudgeFailed:           "Runner Judge Failed",
 }

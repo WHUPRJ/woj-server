@@ -1,28 +1,29 @@
-PROJECT=server
-
 GO := go
 
-LDFLAGS += -X main.BuildTime=$(shell date -u '+%Y-%m-%d-%I-%M-%S')
-LDFLAGS += -X main.Version=$(shell cat VERSION)+$(shell git rev-parse HEAD)
+LDFLAGS += -X cmd.BuildTime=$(shell date -u '+%Y-%m-%d-%I-%M-%S')
+LDFLAGS += -X cmd.Version=$(shell cat VERSION)+$(shell git rev-parse HEAD)
 LDFLAGS += -s -w
 
-GOBUILD := $(GO) build -o $(PROJECT) -ldflags '$(LDFLAGS)' ./cmd/app
+GOBUILD := $(GO) build -ldflags '$(LDFLAGS)'
 GOBIN   := $(shell go env GOPATH)/bin
 
-.PHONY: all build clean run dep swagger fmt
+.PHONY: all server runner build clean dep swagger fmt
 
 default: all
 
 all: clean build
 
-build: swagger dep
-	$(GOBUILD)
+server: swagger dep
+	$(GOBUILD) -o server ./cmd/server
+
+runner: dep
+	$(GOBUILD) -o runner ./cmd/runner
+
+build: runner server
 
 clean:
-	rm -f $(PROJECT)
-
-run: clean swagger dep build
-	./$(PROJECT) run
+	rm -f runner
+	rm -f server
 
 dep:
 	go mod tidy && go mod download

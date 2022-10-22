@@ -6,12 +6,24 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) Create(uid uint, problem *model.Problem) (*model.Problem, e.Status) {
-	problem.ProviderID = uid
-	problem.IsEnabled = true
+type CreateData struct {
+	Title      string
+	Statement  string
+	ProviderID uint
+	IsEnabled  bool
+}
 
-	if err := s.db.Create(problem).Error; err != nil {
-		s.log.Debug("create problem error", zap.Error(err), zap.Any("problem", problem))
+func (s *service) Create(data *CreateData) (*model.Problem, e.Status) {
+	problem := &model.Problem{
+		Title:      data.Title,
+		Statement:  data.Statement,
+		ProviderID: data.ProviderID,
+		IsEnabled:  data.IsEnabled,
+	}
+
+	err := s.db.Create(problem).Error
+	if err != nil {
+		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("problem", problem))
 		return nil, e.DatabaseError
 	}
 

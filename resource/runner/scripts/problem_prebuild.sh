@@ -21,7 +21,7 @@ if [ ! -f "$WORKSPACE/problem/$1/judge/prebuild.Makefile" ]; then
   exit 0
 fi
 
-TIMEOUT=${2:-300}
+export TIMEOUT=${2:-300}
 docker_run \
   -v "$WORKSPACE/problem/$1/data":/woj/problem/data \
   -v "$WORKSPACE/problem/$1/judge":/woj/problem/judge \

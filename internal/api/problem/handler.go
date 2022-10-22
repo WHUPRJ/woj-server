@@ -10,23 +10,25 @@ import (
 var _ Handler = (*handler)(nil)
 
 type Handler interface {
-	Update(c *gin.Context)
+	Details(c *gin.Context)
 	Search(c *gin.Context)
+	Update(c *gin.Context)
 }
 
 type handler struct {
 	log            *zap.Logger
-	problemService problem.Service
 	jwtService     global.JwtService
+	problemService problem.Service
 }
 
 func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 	app := &handler{
 		log:            g.Log,
-		problemService: problem.NewService(g),
 		jwtService:     g.Jwt,
+		problemService: problem.NewService(g),
 	}
 
+	group.POST("/details", app.jwtService.Handler(false), app.Details)
 	group.POST("/search", app.Search)
-	group.POST("/update", app.jwtService.Handler(), app.Update)
+	group.POST("/update", app.jwtService.Handler(true), app.Update)
 }
