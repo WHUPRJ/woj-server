@@ -202,7 +202,7 @@ func (s *service) checkResults(user string, config *Config) (JudgeStatus, int32)
 	}
 
 	var results []TaskStatus
-	dir := filepath.Join(UserDir, fmt.Sprintf("%s", user))
+	dir := filepath.Join(UserDir, user)
 	var sum int32 = 0
 
 	for i := 1; i <= len(config.Tasks); i++ {
@@ -213,14 +213,15 @@ func (s *service) checkResults(user string, config *Config) (JudgeStatus, int32)
 
 		result.getInfoText(info).
 			getInfo().
-			checkExit().
 			checkTime(config).
 			checkMemory(config).
+			checkExit().
 			getJudgeText(judge).
 			getJudge().
 			checkJudge(&pts)
 
 		sum += result.Points
+		results = append(results, result)
 	}
 
 	return JudgeStatus{Message: "", Tasks: results}, sum

@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/WHUPRJ/woj-server/internal/api/consumer"
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/model"
 	"github.com/WHUPRJ/woj-server/internal/repo/postgresql"
@@ -52,9 +53,11 @@ func RunServer(g *global.Global) error {
 
 	// Create Queue
 	queueMux := asynq.NewServeMux()
-	// TODO: fill
-	queueMux.HandleFunc(model.TypeProblemUpdate, func(ctx context.Context, t *asynq.Task) error { return nil })
-	queueMux.HandleFunc(model.TypeSubmitUpdate, func(ctx context.Context, t *asynq.Task) error { return nil })
+	{
+		handler := consumer.NewConsumer(g)
+		queueMux.HandleFunc(model.TypeProblemUpdate, handler.ProblemUpdate)
+		queueMux.HandleFunc(model.TypeSubmitUpdate, handler.SubmitUpdate)
+	}
 	queueSrv := asynq.NewServer(
 		asynq.RedisClientOpt{
 			Addr:     g.Conf.Redis.Address,

@@ -11,6 +11,7 @@ import (
 	"github.com/hibiken/asynq"
 	"go.uber.org/zap"
 	"path/filepath"
+	"time"
 )
 
 func (h *handler) Judge(_ context.Context, t *asynq.Task) error {
@@ -22,52 +23,55 @@ func (h *handler) Judge(_ context.Context, t *asynq.Task) error {
 	user := utils.RandomString(16)
 	h.log.Info("judge", zap.Any("payload", p), zap.String("user", user))
 
-	// common
-	systemError := runner.JudgeStatus{Message: "System Error"}
+	status, point, ctx := func() (e.Status, int32, runner.JudgeStatus) {
+		systemError := runner.JudgeStatus{Message: "System Error"}
 
-	// write code
-	userCode := filepath.Join(runner.UserDir, user, fmt.Sprintf("%s.%s", user, p.Submission.Language))
-	if !utils.FileTouch(userCode) {
-		h.log.Info("Touch file failed", zap.String("userCode", userCode))
-		h.taskService.SubmitUpdate(e.InternalError, p.ProblemVersionId, 0, systemError)
-		return nil
-	}
-	err := utils.FileWrite(userCode, []byte(p.Submission.Code))
-	if err != nil {
-		h.log.Info("Write file failed", zap.String("code", p.Submission.Code))
-		h.taskService.SubmitUpdate(e.InternalError, p.ProblemVersionId, 0, systemError)
-		return nil
-	}
-
-	// compile
-	result, status := h.runnerService.Compile(p.ProblemVersionId, user, p.Submission.Language)
-	if status == e.RunnerProblemNotExist {
-		_, status := h.runnerService.NewProblem(p.ProblemVersionId, p.StorageKey)
-		if status != e.Success {
-			h.log.Warn("download problem failed",
-				zap.Any("status", status),
-				zap.Uint("pvid", p.ProblemVersionId),
-				zap.String("storageKey", p.StorageKey))
-			h.taskService.SubmitUpdate(status, p.ProblemVersionId, 0, systemError)
-			return nil
+		// 1. write user code
+		userCode := filepath.Join(runner.UserDir, user, fmt.Sprintf("%s.%s", user, p.Submission.Language))
+		if !utils.FileTouch(userCode) {
+			return e.InternalError, 0, systemError
 		}
-	} else if status != e.Success {
-		h.taskService.SubmitUpdate(status, p.Submission.ID, 0, result)
-		return nil
-	}
+		err := utils.FileWrite(userCode, []byte(p.Submission.Code))
+		if err != nil {
+			return e.InternalError, 0, systemError
+		}
 
-	// config
-	config, err := h.runnerService.ParseConfig(p.ProblemVersionId, true)
-	if err != nil {
-		h.log.Info("parse config failed", zap.Error(err), zap.Uint("pvid", p.ProblemVersionId))
-		h.taskService.SubmitUpdate(e.InternalError, p.ProblemVersionId, 0, systemError)
-		return nil
-	}
+		// 2. check problem
+		if !h.runnerService.ProblemExists(p.ProblemVersionID) {
+			url, status := h.storageService.Get(p.StorageKey, time.Second*60*5)
+			if status != e.Success {
+				return e.InternalError, 0, systemError
+			}
 
-	// run
-	var points int32
-	result, points, status = h.runnerService.RunAndJudge(p.ProblemVersionId, user, p.Submission.Language, &config)
-	h.taskService.SubmitUpdate(status, p.Submission.ID, points, result)
+			_, status = h.runnerService.NewProblem(p.ProblemVersionID, url, false)
+			if status != e.Success {
+				return e.InternalError, 0, systemError
+			}
+		}
+
+		// 3. compile
+		compileResult, status := h.runnerService.Compile(p.ProblemVersionID, user, p.Submission.Language)
+		if status != e.Success {
+			return e.Success, 0, compileResult
+		}
+
+		// 4. config
+		config, err := h.runnerService.ParseConfig(p.ProblemVersionID, true)
+		if err != nil {
+			return e.InternalError, 0, systemError
+		}
+
+		// 5. run and judge
+		result, point, status := h.runnerService.RunAndJudge(p.ProblemVersionID, user, p.Submission.Language, &config)
+		return utils.If(status != e.Success, e.InternalError, e.Success).(e.Status), point, result
+	}()
+
+	h.taskService.SubmitUpdate(&model.SubmitUpdatePayload{
+		Status:           status,
+		SubmissionID:     p.Submission.ID,
+		ProblemVersionID: p.ProblemVersionID,
+		Point:            point,
+	}, ctx)
 
 	return nil
 }

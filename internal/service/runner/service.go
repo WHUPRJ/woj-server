@@ -12,7 +12,7 @@ type Service interface {
 	// EnsureDeps build docker images
 	EnsureDeps(force bool) e.Status
 	// NewProblem = Download + Parse + Prebuild
-	NewProblem(version uint, url string) (Config, e.Status)
+	NewProblem(version uint, url string, force bool) (Config, e.Status)
 
 	// Compile compile user submission
 	Compile(version uint, user string, lang string) (JudgeStatus, e.Status)
@@ -21,6 +21,8 @@ type Service interface {
 
 	// ParseConfig parse config file
 	ParseConfig(version uint, skipCheck bool) (Config, error)
+	// ProblemExists check if problem exists
+	ProblemExists(version uint) bool
 }
 
 type service struct {

@@ -83,7 +83,9 @@ func (r *Repo) migrateDatabase() {
 
 	_ = r.db.AutoMigrate(&model.User{})
 	_ = r.db.AutoMigrate(&model.Problem{})
+	_ = r.db.AutoMigrate(&model.ProblemVersion{})
 	_ = r.db.AutoMigrate(&model.Submission{})
+	_ = r.db.AutoMigrate(&model.Status{})
 }
 
 // checkAlive deprecated

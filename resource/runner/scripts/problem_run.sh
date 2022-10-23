@@ -31,7 +31,7 @@ log_info "NProcLimit:  $Info_Limit_NProc"
 
 # launcher will add 2 more seconds
 # here add 3 more seconds
-TIMEOUT=$(((LIMIT_TIME + 1000) / 1000 + 3))
+TIMEOUT=$(((LIMIT_TIME + 1000) / 1000 + 4))
 log_info "Timeout:     $TIMEOUT"
 
 for test_num in $(seq "$Info_Num"); do

@@ -18,7 +18,7 @@ const (
 
 type ProblemBuildPayload struct {
 	ProblemVersionID uint
-	ProblemFile      string
+	StorageKey       string
 }
 
 type ProblemUpdatePayload struct {
@@ -28,14 +28,15 @@ type ProblemUpdatePayload struct {
 }
 
 type SubmitJudgePayload struct {
-	ProblemVersionId uint
+	ProblemVersionID uint
 	StorageKey       string
 	Submission       Submission
 }
 
 type SubmitUpdatePayload struct {
-	Status  e.Status
-	Sid     uint
-	Point   int32
-	Context string
+	Status           e.Status
+	SubmissionID     uint
+	ProblemVersionID uint
+	Point            int32
+	Context          string
 }

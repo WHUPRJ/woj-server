@@ -12,10 +12,10 @@ import (
 var _ Service = (*service)(nil)
 
 type Service interface {
-	ProblemBuild(pvId uint, file string) (string, e.Status)
-	ProblemUpdate(status e.Status, pvId uint, ctx string) (string, e.Status)
-	SubmitJudge(pvid uint, storageKey string, submission model.Submission) (string, e.Status)
-	SubmitUpdate(status e.Status, sid uint, point int32, ctx runner.JudgeStatus) (string, e.Status)
+	ProblemBuild(data *model.ProblemBuildPayload) (string, e.Status)
+	ProblemUpdate(data *model.ProblemUpdatePayload) (string, e.Status)
+	SubmitJudge(data *model.SubmitJudgePayload) (string, e.Status)
+	SubmitUpdate(data *model.SubmitUpdatePayload, ctx runner.JudgeStatus) (string, e.Status)
 
 	GetTaskInfo(string, string) (*asynq.TaskInfo, e.Status)
 }

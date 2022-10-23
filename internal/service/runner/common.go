@@ -13,9 +13,9 @@ import (
 
 var (
 	Prefix     = "./resource/runner"
-	ProblemDir = "./problems/"
+	ProblemDir = "./problem/"
 	ScriptsDir = "./scripts/"
-	UserDir    = "./users/"
+	UserDir    = "./user/"
 	TmpDir     = "./tmp/"
 )
 
@@ -40,7 +40,7 @@ func (s *service) execute(script string, args ...string) error {
 }
 
 func (s *service) checkAndExecute(version uint, user string, lang string, script string, fail e.Status) e.Status {
-	if !s.problemExists(version) {
+	if !s.ProblemExists(version) {
 		s.log.Info("problem not exists", zap.Uint("version", version))
 		return e.RunnerProblemNotExist
 	}
@@ -50,7 +50,7 @@ func (s *service) checkAndExecute(version uint, user string, lang string, script
 		return e.RunnerUserNotExist
 	}
 
-	err := s.execute(script, fmt.Sprintf("%d", version), fmt.Sprintf("%s", user), lang)
+	err := s.execute(script, fmt.Sprintf("%d", version), user, lang)
 
 	if err != nil {
 		s.log.Info("execute failed",
@@ -64,12 +64,12 @@ func (s *service) checkAndExecute(version uint, user string, lang string, script
 	return e.Success
 }
 
-func (s *service) problemExists(version uint) bool {
+func (s *service) ProblemExists(version uint) bool {
 	problemPath := filepath.Join(ProblemDir, fmt.Sprintf("%d", version))
 	return utils.FileExist(problemPath)
 }
 
 func (s *service) userExists(user string, file string) bool {
-	userPath := filepath.Join(UserDir, fmt.Sprintf("%s", user), file)
+	userPath := filepath.Join(UserDir, user, file)
 	return utils.FileExist(userPath)
 }

@@ -26,6 +26,14 @@ type ConfigDatabase struct {
 	ConnMaxLifetime int    `yaml:"ConnMaxLifetime"`
 }
 
+type ConfigStorage struct {
+	Endpoint  string `yaml:"Endpoint"`
+	UseSSL    bool   `yaml:"UseSSL"`
+	AccessKey string `yaml:"AccessKey"`
+	SecretKey string `yaml:"SecretKey"`
+	Bucket    string `yaml:"Bucket"`
+}
+
 type ConfigMetrics struct {
 	Namespace string `yaml:"Namespace"`
 	Subsystem string `yaml:"Subsystem"`
@@ -35,6 +43,7 @@ type Config struct {
 	WebServer   ConfigWebServer `yaml:"WebServer"`
 	Redis       ConfigRedis     `yaml:"Redis"`
 	Database    ConfigDatabase  `yaml:"Database"`
+	Storage     ConfigStorage   `yaml:"Storage"`
 	Metrics     ConfigMetrics   `yaml:"Metrics"`
 	Development bool            `yaml:"Development"`
 }

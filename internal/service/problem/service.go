@@ -17,7 +17,7 @@ type Service interface {
 	QueryFuzz(search string, associations bool, shouldEnable bool) ([]*model.Problem, e.Status)
 
 	CreateVersion(data *CreateVersionData) (*model.ProblemVersion, e.Status)
-	UpdateVersion(problemVersion *model.ProblemVersion) (*model.ProblemVersion, e.Status)
+	UpdateVersion(pvid uint, values interface{}) e.Status
 	QueryVersion(pvid uint, shouldEnable bool) (*model.ProblemVersion, e.Status)
 	QueryLatestVersion(pid uint) (*model.ProblemVersion, e.Status)
 }

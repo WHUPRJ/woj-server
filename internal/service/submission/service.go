@@ -13,6 +13,7 @@ var _ Service = (*service)(nil)
 type Service interface {
 	Create(data *CreateData) (*model.Submission, e.Status)
 	Query(pid uint, uid uint, offset int, limit int) ([]*model.Submission, e.Status)
+	QueryBySid(sid uint, associations bool) (*model.Submission, e.Status)
 }
 
 type service struct {

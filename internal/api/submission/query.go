@@ -10,7 +10,7 @@ type queryRequest struct {
 	Pid    uint `form:"pid"`
 	Uid    uint `form:"uid"`
 	Offset int  `form:"offset"`
-	Limit  int  `form:"limit"`
+	Limit  int  `form:"limit"   binding:"required"`
 }
 
 type queryResponse struct {
@@ -23,10 +23,10 @@ type queryResponse struct {
 // @Description Query submissions
 // @Accept      application/x-www-form-urlencoded
 // @Produce     json
-// @Param       pid formData uint false "problem id"
-// @Param       uid formData uint false "user id"
-// @Param       offset formData int false "start position"
-// @Param       limit formData int false "limit number of records"
+// @Param       pid formData uint true "problem id"
+// @Param       uid formData uint true "user id"
+// @Param       offset formData int true "start position"
+// @Param       limit formData int true "limit number of records"
 // @Response    200 {object} e.Response "queryResponse"
 // @Router      /v1/submission/query [post]
 
@@ -67,7 +67,5 @@ func (h *handler) Query(c *gin.Context) {
 		response = append(response, newResponse)
 	}
 
-	e.Pong(c, status, submissions)
-	return
-
+	e.Pong(c, status, response)
 }

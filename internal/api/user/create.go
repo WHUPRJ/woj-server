@@ -55,5 +55,4 @@ func (h *handler) Create(c *gin.Context) {
 	}
 	token, status := h.jwtService.SignClaim(claim)
 	e.Pong(c, status, token)
-	return
 }

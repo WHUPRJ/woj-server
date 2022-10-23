@@ -15,8 +15,6 @@ func (s *service) submit(typename string, payload []byte, queue string) (*asynq.
 		return nil, e.TaskEnqueueFailed
 	}
 
-	s.log.Debug("Successfully enqueued task", zap.Any("info", info))
-
 	return info, e.Success
 }
 

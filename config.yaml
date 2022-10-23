@@ -21,6 +21,13 @@ Database:
   MaxIdleConns: 60
   ConnMaxLifetime: 60
 
+Storage:
+  Endpoint: '127.0.0.1:9000'
+  UseSSL: false
+  AccessKey: 'EHd5Zj56QrTivhFI'
+  SecretKey: 'FUHy4RW1mn0Kbr5pibDZ6R2F9116FZKY'
+  Bucket: 'woj'
+
 Metrics:
   Namespace: 'OJ'
   Subsystem: 'server'

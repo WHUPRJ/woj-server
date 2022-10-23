@@ -3,6 +3,7 @@ package problem
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/model"
+	"github.com/jackc/pgtype"
 	"go.uber.org/zap"
 )
 
@@ -14,6 +15,7 @@ type CreateVersionData struct {
 func (s *service) CreateVersion(data *CreateVersionData) (*model.ProblemVersion, e.Status) {
 	problemVersion := &model.ProblemVersion{
 		ProblemID:  data.ProblemID,
+		Context:    pgtype.JSON{Status: pgtype.Null},
 		StorageKey: data.StorageKey,
 	}
 

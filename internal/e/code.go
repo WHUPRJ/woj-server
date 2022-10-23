@@ -37,6 +37,7 @@ const (
 	ProblemNotAvailable
 	ProblemVersionNotFound
 	ProblemVersionNotAvailable
+	SubmissionNotFound
 	StatusNotFound
 )
 
@@ -56,6 +57,11 @@ const (
 	RunnerUserCompileFailed
 	RunnerRunFailed
 	RunnerJudgeFailed
+)
+
+const (
+	StorageUploadFailed Status = 800 + iota
+	StorageGetFailed
 )
 
 var msgText = map[Status]string{
@@ -88,6 +94,8 @@ var msgText = map[Status]string{
 	ProblemVersionNotFound:     "Problem Version Not Found",
 	ProblemVersionNotAvailable: "Problem Version Not Available",
 
+	SubmissionNotFound: "Submission Not Found",
+
 	StatusNotFound: "Status Not Found",
 
 	TaskEnqueueFailed: "Task Enqueue Failed",
@@ -103,4 +111,7 @@ var msgText = map[Status]string{
 	RunnerUserCompileFailed:     "Runner User Compile Failed",
 	RunnerRunFailed:             "Runner Run Failed",
 	RunnerJudgeFailed:           "Runner Judge Failed",
+
+	StorageUploadFailed: "Storage Upload Failed",
+	StorageGetFailed:    "Storage Get Failed",
 }

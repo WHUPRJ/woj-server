@@ -7,16 +7,13 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) ProblemBuild(pvId uint, file string) (string, e.Status) {
-	payload, err := json.Marshal(model.ProblemBuildPayload{
-		ProblemVersionID: pvId,
-		ProblemFile:      file,
-	})
+func (s *service) ProblemBuild(data *model.ProblemBuildPayload) (string, e.Status) {
+	payload, err := json.Marshal(data)
 	if err != nil {
 		s.log.Warn("json marshal error",
 			zap.Error(err),
-			zap.Any("ProblemVersionID", pvId),
-			zap.String("ProblemFile", file))
+			zap.Any("data", data),
+		)
 		return "", e.InternalError
 	}
 
@@ -25,18 +22,13 @@ func (s *service) ProblemBuild(pvId uint, file string) (string, e.Status) {
 	return info.ID, status
 }
 
-func (s *service) ProblemUpdate(status e.Status, pvId uint, ctx string) (string, e.Status) {
-	payload, err := json.Marshal(model.ProblemUpdatePayload{
-		Status:           status,
-		ProblemVersionID: pvId,
-		Context:          ctx,
-	})
+func (s *service) ProblemUpdate(data *model.ProblemUpdatePayload) (string, e.Status) {
+	payload, err := json.Marshal(data)
 	if err != nil {
 		s.log.Warn("json marshal error",
 			zap.Error(err),
-			zap.Any("Status", status),
-			zap.Any("ProblemVersionID", pvId),
-			zap.Any("Context", ctx))
+			zap.Any("data", data),
+		)
 		return "", e.InternalError
 	}
 

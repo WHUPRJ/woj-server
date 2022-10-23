@@ -47,6 +47,8 @@ func (h *handler) Profile(c *gin.Context) {
 	}
 
 	user, status := h.userService.Profile(req.UID)
+
+	// TODO: >= admin can see is_enable
+
 	e.Pong(c, status, user)
-	return
 }

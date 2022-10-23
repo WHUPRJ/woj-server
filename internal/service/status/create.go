@@ -10,17 +10,20 @@ import (
 type CreateData struct {
 	SubmissionID     uint
 	ProblemVersionID uint
-	Context          pgtype.JSON
+	Context          string
 	Point            int32
 }
 
-func (s service) Create(data *model.Status) (*model.Status, e.Status) {
+func (s service) Create(data *CreateData) (*model.Status, e.Status) {
 	status := &model.Status{
 		SubmissionID:     data.SubmissionID,
 		ProblemVersionID: data.ProblemVersionID,
-		Context:          data.Context,
-		Point:            data.Point,
-		IsEnabled:        true,
+		Context: pgtype.JSON{
+			Bytes:  []byte(data.Context),
+			Status: pgtype.Present,
+		},
+		Point:     data.Point,
+		IsEnabled: true,
 	}
 
 	err := s.db.Create(status).Error

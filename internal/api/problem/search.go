@@ -28,12 +28,12 @@ func (h *handler) Search(c *gin.Context) {
 	// TODO: pagination
 	if req.Search == "" {
 		// TODO: query without LIKE
-		problem, status := h.problemService.QueryFuzz(req.Search, true, true)
-		e.Pong(c, status, problem)
+		problems, status := h.problemService.QueryFuzz(req.Search, true, true)
+		e.Pong(c, status, problems)
 		return
 	} else {
-		problem, status := h.problemService.QueryFuzz(req.Search, true, true)
-		e.Pong(c, status, problem)
+		problems, status := h.problemService.QueryFuzz(req.Search, true, true)
+		e.Pong(c, status, problems)
 		return
 	}
 }

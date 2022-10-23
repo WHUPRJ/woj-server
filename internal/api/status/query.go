@@ -6,9 +6,17 @@ import (
 )
 
 type queryRequest struct {
-	SubmissionID uint `form:"sid"`
+	SubmissionID uint `form:"sid" binding:"required"`
 }
 
+// Query
+// @Summary     query submissions by via submission id
+// @Description query submissions by via submission id
+// @Accept      application/x-www-form-urlencoded
+// @Produce     json
+// @Param       sid formData uint true "submission id"
+// @Response    200 {object} e.Response "model.status"
+// @Router      /v1/status/query [post]
 func (h *handler) Query(c *gin.Context) {
 	req := new(queryRequest)
 
@@ -20,5 +28,4 @@ func (h *handler) Query(c *gin.Context) {
 	status, eStatus := h.statusService.Query(req.SubmissionID, true)
 
 	e.Pong(c, eStatus, status)
-	return
 }

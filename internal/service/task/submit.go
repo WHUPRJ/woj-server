@@ -8,15 +8,13 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) SubmitJudge(pvid uint, storageKey string, submission model.Submission) (string, e.Status) {
-	payload, err := json.Marshal(
-		model.SubmitJudgePayload{
-			ProblemVersionId: pvid,
-			StorageKey:       storageKey,
-			Submission:       submission,
-		})
+func (s *service) SubmitJudge(data *model.SubmitJudgePayload) (string, e.Status) {
+	payload, err := json.Marshal(data)
 	if err != nil {
-		s.log.Warn("json marshal error", zap.Error(err), zap.Any("Submission", submission))
+		s.log.Warn("json marshal error",
+			zap.Error(err),
+			zap.Any("data", data),
+		)
 		return "", e.InternalError
 	}
 
@@ -25,7 +23,7 @@ func (s *service) SubmitJudge(pvid uint, storageKey string, submission model.Sub
 	return info.ID, status
 }
 
-func (s *service) SubmitUpdate(status e.Status, sid uint, point int32, ctx runner.JudgeStatus) (string, e.Status) {
+func (s *service) SubmitUpdate(data *model.SubmitUpdatePayload, ctx runner.JudgeStatus) (string, e.Status) {
 	ctxText, err := json.Marshal(ctx)
 	if err != nil {
 		s.log.Warn("json marshal error",
@@ -34,18 +32,14 @@ func (s *service) SubmitUpdate(status e.Status, sid uint, point int32, ctx runne
 		return "", e.InternalError
 	}
 
-	payload, err := json.Marshal(model.SubmitUpdatePayload{
-		Status:  status,
-		Sid:     sid,
-		Point:   point,
-		Context: string(ctxText),
-	})
+	data.Context = string(ctxText)
+	payload, err := json.Marshal(data)
 	if err != nil {
 		s.log.Warn("json marshal error",
 			zap.Error(err),
-			zap.Any("Status", status),
-			zap.Int32("Point", point),
-			zap.Any("Context", ctx))
+			zap.Any("data", data),
+			zap.Any("Context", ctx),
+		)
 		return "", e.InternalError
 	}
 

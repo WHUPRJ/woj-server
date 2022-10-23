@@ -15,6 +15,7 @@ var _ Handler = (*handler)(nil)
 type Handler interface {
 	Create(c *gin.Context)
 	Query(c *gin.Context)
+	Rejudge(c *gin.Context)
 }
 
 type handler struct {
@@ -38,4 +39,5 @@ func RouteRegister(g *global.Global, group *gin.RouterGroup) {
 
 	group.POST("/create", app.jwtService.Handler(true), app.Create)
 	group.POST("/query", app.Query)
+	group.POST("/rejudge", app.jwtService.Handler(true), app.Rejudge)
 }

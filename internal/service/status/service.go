@@ -11,10 +11,9 @@ import (
 var _ Service = (*service)(nil)
 
 type Service interface {
-	Create(*model.Status) (*model.Status, e.Status)
+	Create(data *CreateData) (*model.Status, e.Status)
 	Query(sid uint, associations bool) (*model.Status, e.Status)
 	QueryByVersion(pvid uint, offset int, limit int) ([]*model.Status, e.Status)
-	Rejudge(statusID uint) ([]*model.Status, e.Status)
 }
 
 type service struct {

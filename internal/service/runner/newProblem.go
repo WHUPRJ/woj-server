@@ -31,7 +31,7 @@ func (s *service) download(version uint, url string) e.Status {
 }
 
 func (s *service) prebuild(version uint, force bool) e.Status {
-	if !s.problemExists(version) {
+	if !s.ProblemExists(version) {
 		return e.RunnerProblemNotExist
 	}
 
@@ -52,10 +52,17 @@ func (s *service) prebuild(version uint, force bool) e.Status {
 	return e.Success
 }
 
-func (s *service) NewProblem(version uint, url string) (Config, e.Status) {
-	status := s.download(version, url)
-	if status != e.Success {
-		return Config{}, status
+func (s *service) NewProblem(version uint, url string, force bool) (Config, e.Status) {
+	if force {
+		problemPath := filepath.Join(ProblemDir, fmt.Sprintf("%d", version))
+		_ = os.RemoveAll(problemPath)
+	}
+
+	if !s.ProblemExists(version) {
+		status := s.download(version, url)
+		if status != e.Success {
+			return Config{}, status
+		}
 	}
 
 	cfg, err := s.ParseConfig(version, false)
@@ -63,7 +70,7 @@ func (s *service) NewProblem(version uint, url string) (Config, e.Status) {
 		return Config{}, e.RunnerProblemParseFailed
 	}
 
-	status = s.prebuild(version, true)
+	status := s.prebuild(version, true)
 	if status != e.Success {
 		return Config{}, status
 	}

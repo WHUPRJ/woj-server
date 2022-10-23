@@ -37,9 +37,11 @@ func (h *handler) Details(c *gin.Context) {
 	}
 
 	pv, status := h.problemService.QueryLatestVersion(req.Pid)
-	e.Pong(c, status, gin.H{
+	if status != e.Success {
+		e.Pong(c, status, nil)
+	}
+	e.Pong(c, e.Success, gin.H{
 		"problem": p,
-		"context": pv.Context,
+		"context": pv.Context.Get(),
 	})
-	return
 }

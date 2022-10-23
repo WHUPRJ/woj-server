@@ -24,3 +24,12 @@ func Pong(c *gin.Context, status Status, body interface{}) {
 	c.Set("err", status)
 	c.JSON(http.StatusOK, Wrap(status, body))
 }
+
+type Endpoint func(*gin.Context) (Status, interface{})
+
+func PongWrapper(handler Endpoint) func(*gin.Context) {
+	return func(c *gin.Context) {
+		status, body := handler(c)
+		Pong(c, status, body)
+	}
+}

@@ -6,6 +6,7 @@ import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
 	"github.com/WHUPRJ/woj-server/internal/service/runner"
+	"github.com/WHUPRJ/woj-server/internal/service/storage"
 	"github.com/WHUPRJ/woj-server/internal/service/task"
 	"github.com/hibiken/asynq"
 	"go.uber.org/zap"
@@ -19,16 +20,18 @@ type Handler interface {
 }
 
 type handler struct {
-	log           *zap.Logger
-	runnerService runner.Service
-	taskService   task.Service
+	log            *zap.Logger
+	runnerService  runner.Service
+	taskService    task.Service
+	storageService storage.Service
 }
 
 func NewRunner(g *global.Global) (Handler, error) {
 	hnd := &handler{
-		log:           g.Log,
-		runnerService: runner.NewService(g),
-		taskService:   task.NewService(g),
+		log:            g.Log,
+		runnerService:  runner.NewService(g),
+		taskService:    task.NewService(g),
+		storageService: storage.NewService(g),
 	}
 
 	status := hnd.runnerService.EnsureDeps(false)

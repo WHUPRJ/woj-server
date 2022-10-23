@@ -23,6 +23,14 @@ func FileExist(filePath string) bool {
 	return If(err == nil || os.IsExist(err), true, false).(bool)
 }
 
+func FileEmpty(filePath string) bool {
+	stat, err := os.Stat(filePath)
+	if err != nil {
+		return true
+	}
+	return stat.Size() == 0
+}
+
 func FileTouch(filePath string) bool {
 	base := filepath.Dir(filePath)
 	_ = os.MkdirAll(base, 0755)

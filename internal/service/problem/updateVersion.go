@@ -6,12 +6,12 @@ import (
 	"go.uber.org/zap"
 )
 
-func (s *service) UpdateVersion(problemVersion *model.ProblemVersion) (*model.ProblemVersion, e.Status) {
-	err := s.db.Save(problemVersion).Error
+func (s *service) UpdateVersion(pvid uint, values interface{}) e.Status {
+	err := s.db.Model(&model.ProblemVersion{}).Where("id = ?", pvid).Updates(values).Error
 	if err != nil {
-		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("problemVersion", problemVersion))
-		return nil, e.DatabaseError
+		s.log.Warn("DatabaseError", zap.Error(err), zap.Any("pvid", pvid), zap.Any("values", values))
+		return e.DatabaseError
 	}
 
-	return problemVersion, e.Success
+	return e.Success
 }

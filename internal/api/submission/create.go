@@ -3,6 +3,7 @@ package submission
 import (
 	"github.com/WHUPRJ/woj-server/internal/e"
 	"github.com/WHUPRJ/woj-server/internal/global"
+	"github.com/WHUPRJ/woj-server/internal/model"
 	"github.com/WHUPRJ/woj-server/internal/service/submission"
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,7 @@ import (
 type createRequest struct {
 	Pid      uint   `form:"pid"       binding:"required"`
 	Language string `form:"language"  binding:"required"`
-	Code     string `form:"statement" binding:"required"`
+	Code     string `form:"code"      binding:"required"`
 }
 
 // Create
@@ -33,10 +34,17 @@ func (h *handler) Create(c *gin.Context) {
 
 	uid := claim.(*global.Claim).UID
 
+	role := claim.(*global.Claim).Role
 	req := new(createRequest)
 
 	if err := c.ShouldBind(req); err != nil {
 		e.Pong(c, e.InvalidParameter, err.Error())
+		return
+	}
+
+	// guest can not submit
+	if role < model.RoleGeneral {
+		e.Pong(c, e.UserUnauthorized, nil)
 		return
 	}
 
@@ -58,7 +66,12 @@ func (h *handler) Create(c *gin.Context) {
 		return
 	}
 
-	_, status = h.taskService.SubmitJudge(pv.ID, pv.StorageKey, *s)
+	payload := &model.SubmitJudgePayload{
+		ProblemVersionID: pv.ID,
+		StorageKey:       pv.StorageKey,
+		Submission:       *s,
+	}
+	_, status = h.taskService.SubmitJudge(payload)
+
 	e.Pong(c, status, nil)
-	return
 }
