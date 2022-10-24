@@ -1,5 +1,7 @@
 ### Project
+/tmp
 /server
+/runner
 my.secrets
 
 ### JetBrains template

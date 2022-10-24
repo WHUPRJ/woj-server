@@ -1,0 +1,17 @@
+{
+    "Runtime": {
+        "TimeLimit": 1000,
+        "MemoryLimit": 16,
+        "NProcLimit": 1
+    },
+    "Languages": [
+        {"Lang": "c", "Type": "custom", "Script": "XYZ.Makefile", "Cmp": ""},
+        {"Lang": "cpp", "Type": "default", "Script": "", "Cmp": "NCMP"}
+    ],
+    "Tasks": [
+        {"Id": 1, "Points": 25},
+        {"Id": 2, "Points": 25},
+        {"Id": 3, "Points": 25},
+        {"Id": 4, "Points": 25}
+    ]
+}

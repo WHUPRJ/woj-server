@@ -2,10 +2,10 @@ name: Docker Image
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
     tags: [ "v*" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
 
 
 jobs:
@@ -18,14 +18,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker meta
-        id: meta
+      - name: Server Meta
+        id: server_meta
         uses: docker/metadata-action@v4
         with:
           images: panpaul/woj-server
-      - name: Build and Push the Docker Image
+      - name: Build and Push the Server Image
         uses: docker/build-push-action@v3
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.server_meta.outputs.tags }}
+          file: ./Dockerfile.server
+          labels: ${{ steps.server_meta.outputs.labels }}

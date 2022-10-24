@@ -1,11 +1,32 @@
 WebServer:
   Address: 0.0.0.0
   Port: 8000
+  JwtSigningKey: 'rq67SdQIRABhHq40'
+  JwtExpireHour: 12
 
 Redis:
   Db: 0
+  QueueDb: 1
   Address: '127.0.0.1:6379'
   Password: ''
+
+Database:
+  Host: '127.0.0.1'
+  Port: 5432
+  User: 'dev'
+  Password: 'password'
+  Database: 'dev'
+  Prefix: 'oj_'
+  MaxOpenConns: 100
+  MaxIdleConns: 60
+  ConnMaxLifetime: 60
+
+Storage:
+  Endpoint: '127.0.0.1:9000'
+  UseSSL: false
+  AccessKey: 'EHd5Zj56QrTivhFI'
+  SecretKey: 'FUHy4RW1mn0Kbr5pibDZ6R2F9116FZKY'
+  Bucket: 'woj'
 
 Metrics:
   Namespace: 'OJ'
