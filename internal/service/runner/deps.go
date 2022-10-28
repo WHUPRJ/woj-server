@@ -10,7 +10,7 @@ import (
 )
 
 func (s *service) EnsureDeps(force bool) e.Status {
-	mark := filepath.Join(Prefix, ".mark.docker")
+	mark := filepath.Join(Prefix, ".mark.container")
 
 	if force {
 		_ = os.Remove(mark)

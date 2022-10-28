@@ -26,11 +26,13 @@ type Service interface {
 }
 
 type service struct {
-	log *zap.Logger
+	log     *zap.Logger
+	verbose bool
 }
 
 func NewService(g *global.Global) Service {
 	return &service{
-		log: g.Log,
+		log:     g.Log,
+		verbose: g.Conf.Development,
 	}
 }

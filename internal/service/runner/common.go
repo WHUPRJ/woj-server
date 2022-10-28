@@ -36,6 +36,10 @@ func (s *service) execute(script string, args ...string) error {
 	p := filepath.Join(ScriptsDir, script)
 	cmd := exec.Command(p, args...)
 	cmd.Dir = ScriptsDir
+	if s.verbose {
+		cmd.Stdout = os.Stderr
+		cmd.Stderr = os.Stderr
+	}
 	return cmd.Run()
 }
 
