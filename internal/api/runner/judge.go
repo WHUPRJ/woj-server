@@ -63,7 +63,7 @@ func (h *handler) Judge(_ context.Context, t *asynq.Task) error {
 
 		// 5. run and judge
 		result, point, status := h.runnerService.RunAndJudge(p.ProblemVersionID, user, p.Submission.Language, &config)
-		return utils.If(status != e.Success, e.InternalError, e.Success).(e.Status), point, result
+		return utils.If(status != e.Success, e.InternalError, e.Success), point, result
 	}()
 
 	h.taskService.SubmitUpdate(&model.SubmitUpdatePayload{

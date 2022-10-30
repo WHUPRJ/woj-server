@@ -17,7 +17,7 @@ import (
 )
 
 func InitRouters(g *global.Global) *gin.Engine {
-	gin.SetMode(utils.If(g.Conf.Development, gin.DebugMode, gin.ReleaseMode).(string))
+	gin.SetMode(utils.If(g.Conf.Development, gin.DebugMode, gin.ReleaseMode))
 
 	r := gin.New()
 	r.MaxMultipartMemory = 8 << 20

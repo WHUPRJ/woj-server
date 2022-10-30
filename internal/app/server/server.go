@@ -65,7 +65,7 @@ func RunServer(g *global.Global) error {
 			DB:       g.Conf.Redis.QueueDb,
 		},
 		asynq.Config{
-			Concurrency: utils.If(runtime.NumCPU() > 1, runtime.NumCPU()-1, 1).(int),
+			Concurrency: utils.If(runtime.NumCPU() > 1, runtime.NumCPU()-1, 1),
 			Logger:      zapasynq.New(g.Log),
 			Queues:      map[string]int{model.QueueServer: 1},
 		},

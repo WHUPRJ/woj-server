@@ -11,7 +11,7 @@ import (
 func (g *Global) SetupZap() {
 	cfg := zap.Config{
 		Level: zap.NewAtomicLevelAt(
-			utils.If(g.Conf.Development, zapcore.DebugLevel, zapcore.InfoLevel).(zapcore.Level),
+			utils.If(g.Conf.Development, zapcore.DebugLevel, zapcore.InfoLevel),
 		),
 		Development:      g.Conf.Development,
 		Encoding:         "console", // or json

@@ -20,7 +20,7 @@ func FileWrite(filePath string, content []byte) error {
 
 func FileExist(filePath string) bool {
 	_, err := os.Stat(filePath)
-	return If(err == nil || os.IsExist(err), true, false).(bool)
+	return If(err == nil || os.IsExist(err), true, false)
 }
 
 func FileEmpty(filePath string) bool {
@@ -35,5 +35,5 @@ func FileTouch(filePath string) bool {
 	base := filepath.Dir(filePath)
 	_ = os.MkdirAll(base, 0755)
 	_, err := os.OpenFile(filePath, os.O_RDONLY|os.O_CREATE, 0644)
-	return If(err == nil, true, false).(bool)
+	return If(err == nil, true, false)
 }
