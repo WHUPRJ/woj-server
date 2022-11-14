@@ -16,7 +16,7 @@ all: clean build
 server: swagger dep
 	$(GOBUILD) -o server ./cmd/server
 
-runner: dep
+runner: swagger dep
 	$(GOBUILD) -o runner ./cmd/runner
 
 build: runner server

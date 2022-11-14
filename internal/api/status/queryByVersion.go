@@ -19,7 +19,7 @@ type queryByVersionRequest struct {
 // @Accept      application/x-www-form-urlencoded
 // @Produce     json
 // @Param       pvid formData uint true "problem version id"
-// @Param       offset formData int true "start position"
+// @Param       offset formData int false "start position"
 // @Param       limit formData int true "limit number of records"
 // @Response    200 {object} e.Response "[]*model.status"
 // @Router      /v1/status/query/problem_version [post]

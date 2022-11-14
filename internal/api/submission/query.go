@@ -23,13 +23,12 @@ type queryResponse struct {
 // @Description Query submissions
 // @Accept      application/x-www-form-urlencoded
 // @Produce     json
-// @Param       pid formData uint true "problem id"
-// @Param       uid formData uint true "user id"
-// @Param       offset formData int true "start position"
+// @Param       pid formData uint false "problem id"
+// @Param       uid formData uint false "user id"
+// @Param       offset formData int false "start position"
 // @Param       limit formData int true "limit number of records"
 // @Response    200 {object} e.Response "queryResponse"
 // @Router      /v1/submission/query [post]
-
 func (h *handler) Query(c *gin.Context) {
 	req := new(queryRequest)
 
